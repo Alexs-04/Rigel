@@ -1,0 +1,64 @@
+.vbox_background_center {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 50%, #cdc8f7, #9a8dd6);
+}
+
+.vbox_background-color {
+    -fx-background-color: white;
+}
+
+.vbox_logo{
+    -fx-background-image: url("/img/logo.png");
+}
+
+.button_inicio {
+    -fx-background-color: rgba(255, 255, 255, 0.667);
+    -fx-background-radius: 50%; /* Hace que el botón sea redondo */
+    -fx-border-radius: 50%;
+    -fx-min-width: 100px; /* Tamaño del botón */
+    -fx-min-height: 100px;
+    -fx-max-width: 100px;
+    -fx-max-height: 100px;
+    -fx-text-fill: black; /* Color del texto */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: #7e7e7e;
+    -fx-border-width: 2px;
+    -fx-alignment: center; /* Asegura que el texto esté centrado */
+    -fx-content-display: center; /* Asegura que el texto se muestre */
+}
+
+/* Estilo para los TextField y PasswordField */
+.text-field{
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-font-size: 14px;
+    -fx-border-color:  #1a389b;
+    -fx-border-width: 0px 0px 3px;
+    -fx-background-color: transparent;
+    
+}
+
+/* Efecto cuando se pasa el mouse por los campos */
+.text-field:focused {
+    -fx-border-width:0px 0px 5px;
+}
+
+/* Efecto hover para el botón */
+.button_inicio:hover {
+    -fx-background-color: #c1c9f3;
+    -fx-text-fill: white;
+}
+
+.password-field {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-font-size: 14px;
+    -fx-border-color:  #1a389b;
+    -fx-border-width: 0px 0px 3px;
+    -fx-background-color: transparent;
+}
+
+.label {
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+}

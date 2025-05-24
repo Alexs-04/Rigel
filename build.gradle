@@ -1,0 +1,80 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+}
+
+group = 'atlix'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'atlix.app.App' // cambia si tu clase principal es otra
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation 'org.postgresql:postgresql:42.7.2'
+
+    def javafxVersion = '21.0.7'
+    def osName = org.gradle.internal.os.OperatingSystem.current()
+    def platform = osName.isWindows() ? 'win' :
+            osName.isLinux() ? 'linux' :
+                    osName.isMacOsX() ? 'mac' : null
+
+    if (platform == null) {
+        throw new GradleException("Unsupported OS for JavaFX")
+    }
+
+    def javafxModules = ['base', 'controls', 'fxml', 'graphics', 'media', 'swing']
+    javafxModules.each { module ->
+        implementation "org.openjfx:javafx-${module}:${javafxVersion}:${platform}"
+    }
+
+
+    implementation 'org.hibernate.orm:hibernate-core:6.6.0.Final'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.2.0'
+
+    implementation 'org.mindrot:jbcrypt:0.4'
+}
+
+run {
+    def javafxModules = ['base', 'controls', 'fxml', 'graphics', 'media', 'swing']
+    def osName = org.gradle.internal.os.OperatingSystem.current()
+    def platform = osName.isWindows() ? 'win' :
+            osName.isLinux() ? 'linux' :
+                    osName.isMacOsX() ? 'mac' : null
+
+    if (platform == null) {
+        throw new GradleException("Unsupported OS for JavaFX")
+    }
+
+    doFirst {
+        jvmArgs = [
+                '--module-path', configurations.runtimeClasspath.asPath,
+                '--add-modules', javafxModules.collect { "javafx.${it}" }.join(',')
+        ]
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/kotlin']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(21)
+}
+
