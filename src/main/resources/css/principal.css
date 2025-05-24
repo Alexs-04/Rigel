@@ -1,0 +1,53 @@
+.custom-anchor-pane {
+    -fx-background-color: #938cee;                
+    -fx-border-color: #938cee;          
+    -fx-border-width: 2px;              
+    -fx-border-radius: 8px;             
+    -fx-background-radius: 8px;         
+    -fx-padding: 10px;                  /* Espaciado interno */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.5, 0, 4); 
+}
+
+.welcome-label {
+    -fx-font-size: 40px;
+    -fx-text-fill: #555;
+    -fx-font-family: "Courier New"; 
+    -fx-font-weight: bold;
+}
+
+.item-label{
+    -fx-font-size: 15px;
+    -fx-text-fill: #1f1e1e;
+    -fx-font-family: "Courier New";
+}
+
+.btnProductos {
+    -fx-background-image: url("/img/img-productos.png");  
+    -fx-background-size: 80px 80px;              
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;           
+}
+
+.btnVentas {
+    -fx-background-image: url("/img/img_venta.png");  
+    -fx-background-size: 80px 80px;             
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;          
+}
+.btnCompras {
+    -fx-background-image: url("/img/img-compras.png");  
+    -fx-background-size: 80px 80px;             
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;          
+}
+
+.btnProveedores {
+    -fx-background-image: url("/img/img_proveedor.png");  
+    -fx-background-size: 80px 80px;              
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;           
+}
