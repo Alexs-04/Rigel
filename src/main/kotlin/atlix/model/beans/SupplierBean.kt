@@ -2,7 +2,6 @@ package atlix.model.beans
 
 import atlix.model.content.Address
 import jakarta.persistence.*
-import java.io.Serializable
 
 @Entity
 @Table(name = "suppliers")
@@ -22,4 +21,6 @@ class SupplierBean(
 
     @OneToMany(mappedBy = "supplierBean", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var listOfProducts: List<ProductBean> = ArrayList()
-) : Serializable {}
+){
+
+}

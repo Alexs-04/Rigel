@@ -1,43 +1,65 @@
-
 package atlix.controller;
 
-import atlix.logic.components.ShowAlert;
+import atlix.util.ShowAlert;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
 public class ProductsController {
 
-    @FXML private AnchorPane AnchorButtons;
-    @FXML private AnchorPane AnchorStack;
+    @FXML
+    private AnchorPane AnchorButtons;
+    @FXML
+    private AnchorPane AnchorStack;
 
-    @FXML private Button btnAddProduct;
-    @FXML private Button btnMissingProducts;
-    @FXML private Button btnModificationProduct;
-    @FXML private Button btnSeachProductMissing;
-    @FXML private Button btnSeachProductTotal;
-    @FXML private Button btnTotalProducts;
+    @FXML
+    private Button btnAddProduct;
+    @FXML
+    private Button btnMissingProducts;
+    @FXML
+    private Button btnModificationProduct;
+    @FXML
+    private Button btnSearchProductMissing;
+    @FXML
+    private Button btnSearchProductTotal;
+    @FXML
+    private Button btnTotalProducts;
 
-    @FXML private TableView<?> tblProductTotal;
-    @FXML private TableView<?> tblProductsMissing;
+    @FXML
+    private TableView<?> tblProductTotal;
+    @FXML
+    private TableView<?> tblProductsMissing;
 
-    @FXML private TextField txtBarCodeModification;
-    @FXML private TextField txtProductBarCode;
-    @FXML private TextArea txtProductDescription;
-    @FXML private TextField txtProductName;
-    @FXML private TextField txtProductSalePrice;
-    @FXML private TextField txtProductStock;
-    @FXML private TextField txtSalePriceModification;
-    @FXML private TextField txtSeachProductMissing;
-    @FXML private TextField txtSeachProductTotal;
-    @FXML private TextField txtStockModification;
+    @FXML
+    private TextField txtBarCodeModification;
+    @FXML
+    private TextField txtProductBarCode;
+    @FXML
+    private TextArea txtProductDescription;
+    @FXML
+    private TextField txtProductName;
+    @FXML
+    private TextField txtProductSalePrice;
+    @FXML
+    private TextField txtProductStock;
+    @FXML
+    private TextField txtSalePriceModification;
+    @FXML
+    private TextField txtSearchProductMissing;
+    @FXML
+    private TextField txtSearchProductTotal;
+    @FXML
+    private TextField txtStockModification;
 
-    @FXML private AnchorPane viewAddProducts;
-    @FXML private AnchorPane viewMissingProducts;
-    @FXML private AnchorPane viewModificationProducts;
-    @FXML private AnchorPane viewTotalProducts;
+    @FXML
+    private AnchorPane viewAddProducts;
+    @FXML
+    private AnchorPane viewMissingProducts;
+    @FXML
+    private AnchorPane viewModificationProducts;
+    @FXML
+    private AnchorPane viewTotalProducts;
 
     @FXML
     public void initialize() {
@@ -61,7 +83,8 @@ public class ProductsController {
         });
 
         txtProductStock.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN) txtProductDescription.requestFocus();
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN)
+                txtProductDescription.requestFocus();
             else if (event.getCode() == KeyCode.UP) txtProductSalePrice.requestFocus();
         });
 
@@ -71,24 +94,28 @@ public class ProductsController {
         });
     }
 
-    @FXML public void showTotalProducts() {
+    @FXML
+    public void showTotalProducts() {
         setActiveView(viewTotalProducts);
-        ShowAlert.showAlert(AlertType.INFORMATION, "Vista", "", "Mostrando Productos Totales.");
+        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Productos Totales.");
     }
 
-    @FXML public void showMissingProducts() {
+    @FXML
+    public void showMissingProducts() {
         setActiveView(viewMissingProducts);
-        ShowAlert.showAlert(AlertType.INFORMATION, "Vista", "", "Mostrando Productos Faltantes.");
+        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Productos Faltantes.");
     }
 
-    @FXML public void showAddProducts() {
+    @FXML
+    public void showAddProducts() {
         setActiveView(viewAddProducts);
-        ShowAlert.showAlert(AlertType.INFORMATION, "Vista", "", "Mostrando Alta de Productos.");
+        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Alta de Productos.");
     }
 
-    @FXML public void showModificationProducts() {
+    @FXML
+    public void showModificationProducts() {
         setActiveView(viewModificationProducts);
-        ShowAlert.showAlert(AlertType.INFORMATION, "Vista", "", "Mostrando Modificación de Productos.");
+        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Modificación de Productos.");
     }
 
     private void setActiveView(AnchorPane active) {
@@ -99,79 +126,71 @@ public class ProductsController {
         active.setVisible(true);
     }
 
-    @FXML public void saveProduct() {
-        String codigo = txtProductBarCode.getText().trim();
+    @FXML
+    public void saveProduct() {
+        String code = txtProductBarCode.getText().trim();
         String nombre = txtProductName.getText().trim();
         String precioStr = txtProductSalePrice.getText().trim();
         String stockStr = txtProductStock.getText().trim();
-        String descripcion = txtProductDescription.getText().trim();
+        String description = txtProductDescription.getText().trim();
 
-        if (validateEmpty(codigo, txtProductBarCode) |
-            validateEmpty(nombre, txtProductName) |
-            validateEmpty(precioStr, txtProductSalePrice) |
-            validateEmpty(stockStr, txtProductStock) |
-            validateEmpty(descripcion, txtProductDescription)) {
-            ShowAlert.showAlert(AlertType.WARNING, "Campos incompletos", "", "Por favor completa todos los campos.");
+        if (validateEmpty(code, txtProductBarCode) |
+                validateEmpty(nombre, txtProductName) |
+                validateEmpty(precioStr, txtProductSalePrice) |
+                validateEmpty(stockStr, txtProductStock) |
+                validateEmpty(description, txtProductDescription)) {
+            ShowAlert.INSTANCE.showAlert("WARNING", "Campos incompletos", "", "Por favor completa todos los campos.");
             return;
         }
 
         try {
             Double.parseDouble(precioStr);
             Integer.parseInt(stockStr);
-            ShowAlert.showAlert(AlertType.INFORMATION, "Producto guardado", "", "El producto fue registrado correctamente.");
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Producto guardado", "", "El producto fue registrado correctamente.");
             txtProductBarCode.clear();
             txtProductName.clear();
             txtProductSalePrice.clear();
             txtProductStock.clear();
             txtProductDescription.clear();
         } catch (NumberFormatException e) {
-            ShowAlert.showAlert(AlertType.ERROR, "Formato inválido", "", "Precio y stock deben ser números.");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Formato inválido", "", "Precio y stock deben ser números.");
         }
     }
 
-    @FXML public void modifyProduct() {
-        String codigo = txtBarCodeModification.getText().trim();
+    @FXML
+    public void modifyProduct() {
+        String code = txtBarCodeModification.getText().trim();
         String precio = txtSalePriceModification.getText().trim();
         String stock = txtStockModification.getText().trim();
 
-        if (validateEmpty(codigo, txtBarCodeModification) |
-            validateEmpty(precio, txtSalePriceModification) |
-            validateEmpty(stock, txtStockModification)) {
-            ShowAlert.showAlert(AlertType.WARNING, "Campos vacíos", "", "Completa todos los campos de modificación.");
+        if (validateEmpty(code, txtBarCodeModification) |
+                validateEmpty(precio, txtSalePriceModification) |
+                validateEmpty(stock, txtStockModification)) {
+            ShowAlert.INSTANCE.showAlert("WARNING", "Campos vacíos", "", "Completa todos los campos de modificación.");
             return;
         }
 
         try {
             Double.parseDouble(precio);
             Integer.parseInt(stock);
-            ShowAlert.showAlert(AlertType.INFORMATION, "Modificación exitosa", "", "Producto modificado correctamente.");
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Modificación exitosa", "", "Producto modificado correctamente.");
             txtBarCodeModification.clear();
             txtSalePriceModification.clear();
             txtStockModification.clear();
         } catch (NumberFormatException e) {
-            ShowAlert.showAlert(AlertType.ERROR, "Error de formato", "", "Verifica el precio y stock ingresados.");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error de formato", "", "Verifica el precio y stock ingresados.");
         }
     }
 
-    @FXML public void searchTotalProducts() {
-        String busqueda = txtSeachProductTotal.getText().trim();
-        if (busqueda.isEmpty()) {
-            txtSeachProductTotal.setStyle("-fx-border-color: crimson; -fx-border-width: 2px;");
-            ShowAlert.showAlert(AlertType.WARNING, "Campo vacío", "", "Introduce un nombre o código a buscar.");
+    @FXML
+    public void search() {
+        String search = txtSearchProductTotal.getText().trim();
+        if (search.isEmpty()) {
+            txtSearchProductTotal.setStyle("-fx-border-color: crimson; -fx-border-width: 2px;");
+            ShowAlert.INSTANCE.showAlert("WARNING", "Campo vacío", "", "Introduce un nombre o código a buscar.");
         } else {
-            txtSeachProductTotal.setStyle("");
-            ShowAlert.showAlert(AlertType.INFORMATION, "Búsqueda", "", "Buscando: " + busqueda);
-        }
-    }
-
-    @FXML public void searchMissingProducts() {
-        String busqueda = txtSeachProductMissing.getText().trim();
-        if (busqueda.isEmpty()) {
-            txtSeachProductMissing.setStyle("-fx-border-color: crimson; -fx-border-width: 2px;");
-            ShowAlert.showAlert(AlertType.WARNING, "Campo vacío", "", "Introduce un nombre o código a buscar.");
-        } else {
-            txtSeachProductMissing.setStyle("");
-            ShowAlert.showAlert(AlertType.INFORMATION, "Búsqueda", "", "Buscando: " + busqueda);
+            txtSearchProductTotal.setStyle("");
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Búsqueda", "", "Buscando: " + search);
         }
     }
 

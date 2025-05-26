@@ -1,7 +1,6 @@
 package atlix.model.beans
 
 import jakarta.persistence.*
-import java.io.Serializable
 import java.time.LocalDate
 
 @Entity
@@ -21,4 +20,8 @@ class ConsumerBean(
 
     @Column(name = "register_date", nullable = false)
     var registerDate: LocalDate = LocalDate.now()
-) : Serializable {}
+) {
+    class Builder(){
+        
+    }
+}

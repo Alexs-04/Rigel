@@ -2,7 +2,6 @@ package atlix.model.beans
 
 import atlix.model.enums.Category
 import jakarta.persistence.*
-import java.io.Serializable
 import java.time.LocalDate
 
 @Entity
@@ -31,4 +30,6 @@ class ProductBean(
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
     var supplierBean: SupplierBean = SupplierBean()
-) : Serializable {}
+){
+
+}

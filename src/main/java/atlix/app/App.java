@@ -4,7 +4,6 @@ import atlix.util.Paths;
 import atlix.util.ShowAlert;
 import atlix.util.WindowLoader;
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -16,7 +15,7 @@ public class App extends Application {
         try {
             windowLoader.showWindow(Paths.LOGIN, "Inicio de sesión", false);
         } catch (Exception e) {
-            ShowAlert.INSTANCE.showAlert(Alert.AlertType.ERROR, "Error", "",
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "",
                     "No se pudo cargar la ventana principal");
         }
     }
