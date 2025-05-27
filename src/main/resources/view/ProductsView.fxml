@@ -46,7 +46,7 @@
                             <children>
                                 <TextField fx:id="txtSearchProductTotal" layoutX="24.0" layoutY="78.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="250.0"
-                                           promptText="Busqueda"/>
+                                           promptText="Búsqueda"/>
                                 <Label layoutX="108.0" layoutY="14.0" prefHeight="47.0" prefWidth="228.0"
                                        styleClass="welcome-label" text="Productos Totales "/>
                                 <TableView fx:id="tblProductTotal" layoutX="24.0" layoutY="120.0"
@@ -67,7 +67,7 @@
                                       styleClass="boton-buscar">
                                     <children>
                                         <Button fx:id="btnSearchProductTotal" mnemonicParsing="false"
-                                                text="Buscar"/>
+                                                text="Búscar"/>
                                     </children>
                                 </Pane>
                             </children>
@@ -83,7 +83,7 @@
                             <children>
                                 <TextField fx:id="txtSearchProductMissing" layoutX="24.0" layoutY="78.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="250.0"
-                                           promptText="Buscar"/>
+                                           promptText="Búscar"/>
                                 <Label layoutX="108.0" layoutY="14.0" minHeight="-Infinity" prefHeight="47.0"
                                        prefWidth="250.0" styleClass="welcome-label" text="Productos Faltantes"/>
                                 <ImageView fitHeight="47.0" fitWidth="72.0" layoutX="53.0" layoutY="7.0"
@@ -103,7 +103,7 @@
                                 <Pane layoutX="286.0" layoutY="68.0" prefHeight="47.0" prefWidth="70.0"
                                       styleClass="boton-buscar">
                                     <Button fx:id="btnSearchProductMissing" mnemonicParsing="false"
-                                            text="Buscar"/>
+                                            text="Búscar"/>
                                 </Pane>
                             </children>
                         </AnchorPane>
@@ -127,13 +127,13 @@
                                        text="Descripción"/>
                                 <TextField fx:id="txtProductBarCode" layoutX="184.0" layoutY="80.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0"
-                                           promptText="codigo de barras"/>
+                                           promptText="código de barras"/>
                                 <TextField fx:id="txtProductName" layoutX="184.0" layoutY="120.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0"
                                            promptText="nombre"/>
                                 <TextField fx:id="txtProductSalePrice" layoutX="184.0" layoutY="160.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0"
-                                           promptText="precio de veta"/>
+                                           promptText="precio de venta"/>
                                 <TextField fx:id="txtProductStock" layoutX="184.0" layoutY="200.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0"
                                            promptText="stock"/>
@@ -170,7 +170,7 @@
                                        text="Stock"/>
                                 <Label layoutX="23.0" layoutY="190.0" prefHeight="40.0" prefWidth="125.0"
                                        text="Descripción"/>
-                                <TextField fx:id="txtBarCodeModification" layoutX="184.0" layoutY="80.0"
+                                <TextField fx:id="txtNameProduct" layoutX="184.0" layoutY="80.0"
                                            minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0"
                                            promptText="nombre"/>
                                 <TextField fx:id="txtSalePriceModification" layoutX="184.0" layoutY="120.0"
