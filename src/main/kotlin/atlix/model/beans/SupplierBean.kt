@@ -1,6 +1,6 @@
 package atlix.model.beans
 
-import atlix.model.content.Address
+import atlix.model.content.ProductSupplier
 import jakarta.persistence.*
 
 @Entity
@@ -12,15 +12,15 @@ class SupplierBean(
 
     var company: String = "",
     var name: String = "",
-
-    @Embedded
-    var address: Address = Address(),
+    var nameContact: String = "",
 
     @Column(name = "number_phone")
     var numberPhone: String = "",
 
-    @OneToMany(mappedBy = "supplierBean", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var listOfProducts: List<ProductBean> = ArrayList()
-){
+    var email: String = "",
+    @OneToMany(mappedBy = "supplier", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var products: MutableSet<ProductSupplier> = mutableSetOf()
+
+) {
 
 }

@@ -1,4 +1,4 @@
 package atlix.model.content
 
-class Address {
+class SaleDescription() {
 }

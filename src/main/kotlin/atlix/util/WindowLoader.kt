@@ -1,6 +1,7 @@
 package atlix.util
 
 import javafx.fxml.FXMLLoader
+import javafx.fxml.LoadException
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.image.Image
@@ -17,7 +18,7 @@ class WindowLoader {
      * @param expansive Indica si la ventana es redimensionable.
      * @throws Exception Si ocurre un error al cargar el archivo FXML.
      */
-    @Throws(Exception::class)
+    @Throws(LoadException::class)
     fun showWindow(fxmlPath: String, title: String, expansive: Boolean) {
         // Cargar el archivo FXML
         val loader = FXMLLoader(javaClass.getResource(fxmlPath))

@@ -2,6 +2,7 @@ package atlix.logic.services
 
 import atlix.logic.security.LogIn
 import atlix.model.repository.ConsumerRepository
+import atlix.util.Paths
 import atlix.util.WindowLoader
 import javafx.stage.Stage
 
@@ -14,7 +15,8 @@ class LoginService {
         return logIn.startSession(consumerName, pass)
     }
 
-    fun logout() {
+    fun loadMainWindow() {
+        WindowLoader().showWindow(Paths.MAIN_VIEW, "Vista Principal", false)
     }
 
     fun closeWindow(stage: Stage) {
