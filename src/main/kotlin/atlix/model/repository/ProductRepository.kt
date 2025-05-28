@@ -18,21 +18,12 @@ class ProductRepository {
         entityManager.transaction.commit()
     }
 
-    private fun findById(barCode: Long): ProductBean? {
-        return entityManager.find(ProductBean::class.java, barCode)
+    private fun findById(id: Long): ProductBean? {
+        return entityManager.find(ProductBean::class.java, id)
     }
 
     fun findAll(): List<ProductBean> {
         return entityManager.createQuery("SELECT p FROM ProductBean p", ProductBean::class.java)
-            .resultList
-    }
-
-    fun findBySupplierId(supplierId: Int): List<ProductBean> {
-        return entityManager.createQuery(
-            "SELECT p FROM ProductBean p WHERE p.supplierBean.id = :supplierId",
-            ProductBean::class.java
-        )
-            .setParameter("supplierId", supplierId)
             .resultList
     }
 
@@ -44,9 +35,9 @@ class ProductRepository {
     }
 
     @Transactional
-    fun delete(barCode: Long) {
+    fun delete(id: Long) {
         entityManager.transaction.begin()
-        val product = findById(barCode)
+        val product = findById(id)
         if (product != null) {
             entityManager.remove(product)
         }
