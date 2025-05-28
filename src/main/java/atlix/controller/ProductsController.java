@@ -32,11 +32,7 @@ public class ProductsController {
     private TableView<?> tblProductsMissing;
 
     @FXML
-    private TextField txtBarCodeModification;
-    @FXML
     private TextField txtProductBarCode;
-    @FXML
-    private TextArea txtProductDescription;
     @FXML
     private TextField txtProductName;
     @FXML
@@ -44,13 +40,17 @@ public class ProductsController {
     @FXML
     private TextField txtProductStock;
     @FXML
+    private TextArea txtProductDescription;
+
+    @FXML
     private TextField txtSalePriceModification;
+    @FXML
+    private TextField txtStockModification;
+
     @FXML
     private TextField txtSearchProductMissing;
     @FXML
     private TextField txtSearchProductTotal;
-    @FXML
-    private TextField txtStockModification;
 
     @FXML
     private AnchorPane viewAddProducts;
@@ -159,12 +159,10 @@ public class ProductsController {
 
     @FXML
     public void modifyProduct() {
-        String code = txtBarCodeModification.getText().trim();
         String precio = txtSalePriceModification.getText().trim();
         String stock = txtStockModification.getText().trim();
 
-        if (validateEmpty(code, txtBarCodeModification) |
-                validateEmpty(precio, txtSalePriceModification) |
+        if (validateEmpty(precio, txtSalePriceModification) |
                 validateEmpty(stock, txtStockModification)) {
             ShowAlert.INSTANCE.showAlert("WARNING", "Campos vacíos", "", "Completa todos los campos de modificación.");
             return;
@@ -174,7 +172,6 @@ public class ProductsController {
             Double.parseDouble(precio);
             Integer.parseInt(stock);
             ShowAlert.INSTANCE.showAlert("INFORMATION", "Modificación exitosa", "", "Producto modificado correctamente.");
-            txtBarCodeModification.clear();
             txtSalePriceModification.clear();
             txtStockModification.clear();
         } catch (NumberFormatException e) {
