@@ -1,18 +1,36 @@
 package atlix.controller;
 
+import atlix.logic.services.ProductsService;
 import atlix.util.ShowAlert;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
 public class ProductsController {
 
     @FXML
+    public TableColumn<atlix.model.beans.ProductBean, Long> clnIdMissing;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, String> clnNameMissing;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, String> clnDescriptionMissing;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, Integer> clnStockMissing;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, Long> clnIdTotal;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, Integer> clnNameTotal;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, String> clnDescriptionTotal;
+    @FXML
+    public TableColumn<atlix.model.beans.ProductBean, Integer> clnStockTotal;
+    @FXML
     private AnchorPane AnchorButtons;
     @FXML
     private AnchorPane AnchorStack;
-
     @FXML
     private Button btnAddProduct;
     @FXML
@@ -27,9 +45,9 @@ public class ProductsController {
     private Button btnTotalProducts;
 
     @FXML
-    private TableView<?> tblProductTotal;
+    private TableView<atlix.model.beans.ProductBean> tblProductTotal;
     @FXML
-    private TableView<?> tblProductsMissing;
+    private TableView<atlix.model.beans.ProductBean> tblProductsMissing;
 
     @FXML
     private TextField txtProductBarCode;
@@ -46,7 +64,6 @@ public class ProductsController {
     private TextField txtSalePriceModification;
     @FXML
     private TextField txtStockModification;
-
     @FXML
     private TextField txtSearchProductMissing;
     @FXML
@@ -61,10 +78,24 @@ public class ProductsController {
     @FXML
     private AnchorPane viewTotalProducts;
 
+    private final ProductsService productsService = new ProductsService();
+
     @FXML
     public void initialize() {
         showAddProducts();
         setupKeyboardEvents();
+        clnDescriptionTotal.setCellValueFactory(new PropertyValueFactory<>("description"));
+        clnIdTotal.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clnNameTotal.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clnStockTotal.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+        tblProductTotal.setItems(FXCollections.observableArrayList(productsService.getAllProducts()));
+
+        clnDescriptionMissing.setCellValueFactory(new PropertyValueFactory<>("description"));
+        clnIdMissing.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clnNameMissing.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clnStockMissing.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        tblProductsMissing.setItems(FXCollections.observableArrayList(productsService.getMissingProductsStock()));
     }
 
     private void setupKeyboardEvents() {

@@ -6,9 +6,9 @@ class ProductsService {
 
     val productRepository: ProductRepository = ProductRepository()
 
-    fun addNewProduct(baCode: String, price: Double, stock: Int, name: String, description: String) {
+    fun addNewProduct(barCode: String, price: Double, stock: Int, name: String, description: String) {
         val product = atlix.model.beans.ProductBean(
-            barCode = baCode.toLong(),
+            barCode = barCode.toLong(),
             price = price,
             stock = stock,
             name = name,
@@ -21,9 +21,8 @@ class ProductsService {
         return productRepository.findAll()
     }
 
-    fun getProductsMissingStock(): List<atlix.model.beans.ProductBean> {
+    fun getMissingProductsStock(): List<atlix.model.beans.ProductBean> {
         return productRepository.findAll().filter { it.stock <= 0 }
     }
-
 
 }
