@@ -1,9 +1,9 @@
 package atlix.controller;
 
-import atlix.util.Paths;
-import atlix.util.WindowLoader;
+import atlix.logic.services.MainService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -19,14 +19,14 @@ public class MainController {
     @FXML
     private Button btnSuppliers;
 
-    private final WindowLoader windowLoader = new WindowLoader();
+    private final MainService mainService = new MainService();
 
     @FXML
     public void initialize() {
-        configurarEventos();
+        configureEvents();
     }
 
-    private void configurarEventos() {
+    private void configureEvents() {
         btnProducts.setOnAction(event -> goToProducts());
         btnSales.setOnAction(event -> goToSales());
         btnShopping.setOnAction(event -> goToShopping());
@@ -34,11 +34,9 @@ public class MainController {
     }
 
     private void goToProducts() {
-        try {
-            windowLoader.showWindow(Paths.PRODUCTS_VIEW, "Gestión de Productos", false);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        mainService.loadProductsView();
+        var stage = (Stage) btnProducts.getScene().getWindow();
+        mainService.closeWindow(stage);
     }
 
     private void goToSales() {
