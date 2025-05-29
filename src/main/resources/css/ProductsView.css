@@ -123,5 +123,5 @@
 /* Efecto al enfocar */
 .text-field:focused {
     -fx-border-color: #4A90E2;
-    -fx-effect: dropshadow(gaus)
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
 }
