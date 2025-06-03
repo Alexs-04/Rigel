@@ -1,44 +1,44 @@
 package atlix.model.repository
 
-import atlix.model.beans.SupplierBean
+import atlix.model.beans.SaleBean
 import jakarta.persistence.EntityManager
 import jakarta.persistence.Persistence
 import jakarta.transaction.Transactional
 
-class SupplierRepository {
+class SaleRepository {
 
     private val entityManager: EntityManager = Persistence.createEntityManagerFactory("prometheus")
         .createEntityManager()
 
     @Transactional
-    fun save(supplierBean: SupplierBean) {
+    fun save(sale: SaleBean) {
         entityManager.transaction.begin()
-        entityManager.persist(supplierBean)
+        entityManager.persist(sale)
         entityManager.transaction.commit()
     }
 
-    fun findById(id: Int): SupplierBean? {
-        return entityManager.find(SupplierBean::class.java, id)
+    fun findById(id: Int): SaleBean? {
+        return entityManager.find(SaleBean::class.java, id)
     }
 
-    fun findAll(): List<SupplierBean> {
-        return entityManager.createQuery("SELECT s FROM SupplierBean s", SupplierBean::class.java)
+    fun findAll(): List<SaleBean> {
+        return entityManager.createQuery("SELECT s FROM SaleBean s", SaleBean::class.java)
             .resultList
     }
 
     @Transactional
-    fun update(supplierBean: SupplierBean) {
+    fun update(sale: SaleBean) {
         entityManager.transaction.begin()
-        entityManager.merge(supplierBean)
+        entityManager.merge(sale)
         entityManager.transaction.commit()
     }
 
     @Transactional
     fun delete(id: Int) {
         entityManager.transaction.begin()
-        val supplier = findById(id)
-        if (supplier != null) {
-            entityManager.remove(supplier)
+        val sale = findById(id)
+        if (sale != null) {
+            entityManager.remove(sale)
         }
         entityManager.transaction.commit()
     }

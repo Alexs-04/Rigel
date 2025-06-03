@@ -5,6 +5,9 @@
         <class>atlix.model.beans.ConsumerBean</class>
         <class>atlix.model.beans.SupplierBean</class>
         <class>atlix.model.beans.ProductBean</class>
+        <class>atlix.model.beans.SaleBean</class>
+        <class>atlix.model.content.ProductSupplier</class>
+        <class>atlix.model.content.SaleDescription</class>
         <!-- Configuración de la base de datos -->
         <properties>
             <!-- Conexión a la base de datos -->

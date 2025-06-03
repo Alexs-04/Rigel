@@ -1,10 +1,13 @@
 package atlix.model.beans
 
+import atlix.model.content.SaleDescription
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
 
@@ -15,7 +18,7 @@ class SaleBean(
     var id: Long = 0L,
     var date: LocalDate,
     @Column(length = 10)
-    var total: Double
-) {
-
-}
+    var total: Double,
+    @OneToMany(mappedBy = "sale", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var details: List<SaleDescription> = mutableListOf()
+)

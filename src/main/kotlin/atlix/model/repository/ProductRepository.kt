@@ -12,14 +12,23 @@ class ProductRepository {
         .createEntityManager()
 
     @Transactional
-    fun save(product: ProductBean) {
+    fun save(product: ProductBean): ProductBean {
         entityManager.transaction.begin()
         entityManager.persist(product)
         entityManager.transaction.commit()
+        return product
     }
+
 
     private fun findById(id: Long): ProductBean? {
         return entityManager.find(ProductBean::class.java, id)
+    }
+
+    fun findByBarCode(barCode: Long): ProductBean? {
+        return entityManager.createQuery("SELECT p FROM ProductBean p WHERE p.barCode = :barCode", ProductBean::class.java)
+            .setParameter("barCode", barCode)
+            .resultList
+            .firstOrNull()
     }
 
     fun findAll(): List<ProductBean> {
