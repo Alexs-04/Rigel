@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -15,97 +16,94 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.ProductsController">
-    <SplitPane dividerPositions="0.29797979797979796" prefHeight="413.0" prefWidth="640.0" stylesheets="@../css/ProductsView.css">
-        <AnchorPane fx:id="AnchorButtons" minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="119.0">
+<VBox prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.ProductsController">
+    <SplitPane dividerPositions="0.18948247078464106" prefHeight="610.0" prefWidth="1200.0" stylesheets="@../css/products-style.css">
+        <AnchorPane fx:id="AnchorButtons" minHeight="0.0" minWidth="0.0" prefHeight="514.0" prefWidth="226.0">
             <styleClass>
                 <String fx:value="split-pane" />
                 <String fx:value="custom-anchor-pane" />
             </styleClass>
-            <Button fx:id="btnTotalProducts" mnemonicParsing="false" prefHeight="104.0" prefWidth="187.0" text="Productos Totales" />
-            <Button fx:id="btnMissingProducts" layoutY="95.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="187.0" text="Productos Faltantes" />
-            <Button fx:id="btnAddProduct" layoutY="199.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="187.0" text="Alta de productos " />
-            <Button fx:id="btnModificationProduct" layoutY="294.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="187.0" text="Modificación" />
+            <Button fx:id="btnTotalProducts" mnemonicParsing="false" onAction="#goToTotalProducts" prefHeight="120.0" prefWidth="187.0" text="Productos Totales" />
+            <Button fx:id="btnMissingProducts" layoutY="120.0" mnemonicParsing="false" onAction="#goToMissingProducts" prefHeight="120.0" prefWidth="187.0" text="Productos Faltantes" />
+            <Button fx:id="btnAddProduct" layoutY="240.0" mnemonicParsing="false" onAction="#goToAddProducts" prefHeight="120.0" prefWidth="187.0" text="Alta de productos" />
+            <Button fx:id="btnModificationProduct" layoutY="360.0" mnemonicParsing="false" onAction="#goToModificationProducts" prefHeight="120.0" prefWidth="187.0" text="Modificación" />
+            <Button fx:id="btnHomeProduct" layoutY="480.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="120.0" prefWidth="187.0" text="Home" />
         </AnchorPane>
         <AnchorPane fx:id="AnchorStack" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="split-pane">
             <children>
-                <StackPane prefHeight="400.0" prefWidth="400.0">
+                <StackPane prefHeight="598.0" prefWidth="970.0">
                     <styleClass>
                         <String fx:value="custom-anchor-pane" />
                         <String fx:value="split-pane" />
                     </styleClass>
                     <children>
-                        <AnchorPane fx:id="viewTotalProducts" prefHeight="430.0" prefWidth="426.0" visible="false">
+                        <AnchorPane fx:id="viewTotalProducts" prefHeight="430.0" prefWidth="426.0" visible="true">
                             <children>
-                                <TextField fx:id="txtSearchProductTotal" layoutX="24.0" layoutY="78.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="250.0" promptText="Búsqueda" />
-                                <Label layoutX="108.0" layoutY="14.0" prefHeight="47.0" prefWidth="228.0" styleClass="welcome-label" text="Productos Totales " />
-                                <TableView fx:id="tblProductTotal" layoutX="24.0" layoutY="120.0" prefHeight="240.0" prefWidth="380.0">
+                                <TextField fx:id="txtSearchProductTotal" layoutX="202.0" layoutY="90.0" minHeight="-Infinity" prefHeight="40.0" prefWidth="500.0" promptText="Búsqueda" />
+                                <Label layoutX="231.0" layoutY="14.0" prefHeight="60.0" prefWidth="547.0" styleClass="welcome-label" text="Productos Totales " />
+                                <TableView fx:id="tblProductTotal" layoutX="73.0" layoutY="161.0" prefHeight="380.0" prefWidth="800.0">
                                     <columns>
-                                        <TableColumn fx:id="clnIdTotal" prefWidth="65.0" text="id" />
-                                        <TableColumn fx:id="clnNameTotal" prefWidth="89.0" text="Nombre" />
-                                        <TableColumn fx:id="clnDescriptionTotal" maxWidth="145.0" prefWidth="281.0" text="Descripción" />
-                                        <TableColumn fx:id="clnStockTotal" maxWidth="100.0" prefWidth="75.0" text="Stock" />
+                                        <TableColumn fx:id="clnIdTotal" minWidth="200.0" prefWidth="65.0" text="id" />
+                                        <TableColumn fx:id="clnNameTotal" prefWidth="200.0" text="Nombre" />
+                                        <TableColumn fx:id="clnDescriptionTotal" maxWidth="145.0" minWidth="200.0" prefWidth="281.0" text="Descripción" />
+                                        <TableColumn fx:id="clnStockTotal" maxWidth="100.0" minWidth="200.0" prefWidth="75.0" text="Stock" />
                                     </columns>
                                 </TableView>
-                                <ImageView fitHeight="47.0" fitWidth="72.0" layoutX="53.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="74.0" fitWidth="82.0" layoutX="130.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/LogoTienda.png" />
                                     </image>
                                 </ImageView>
-                                <Pane layoutX="286.0" layoutY="68.0" prefHeight="47.0" prefWidth="70.0" styleClass="boton-buscar">
+                                <Pane layoutX="714.0" layoutY="85.0" prefHeight="50.0" prefWidth="150.0" styleClass="boton-buscar">
                                     <children>
-                                        <Button fx:id="btnSearchProductTotal" mnemonicParsing="false" text="Búscar" />
+                                        <Button fx:id="btnSearchProductTotal" mnemonicParsing="false" onAction="#searchProductTotal" styleClass="boton-buscar" text="Búscar" />
                                     </children>
                                 </Pane>
                             </children>
-                            <styleClass>
-                                <String fx:value="welcome-label" />
-                                <String fx:value="table-cell" />
-                                <String fx:value="table-row-cell" />
-                                <String fx:value="column-header-background" />
-                            </styleClass>
                         </AnchorPane>
                         <AnchorPane fx:id="viewMissingProducts" prefHeight="430.0" prefWidth="426.0" visible="false">
                             <children>
-                                <TextField fx:id="txtSearchProductMissing" layoutX="24.0" layoutY="78.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="250.0" promptText="Búscar" />
-                                <Label layoutX="108.0" layoutY="14.0" minHeight="-Infinity" prefHeight="47.0" prefWidth="250.0" styleClass="welcome-label" text="Productos Faltantes" />
-                                <ImageView fitHeight="47.0" fitWidth="72.0" layoutX="53.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                <TextField fx:id="txtSearchProductMissing" layoutX="202.0" layoutY="90.0" minHeight="-Infinity" prefHeight="40.0" prefWidth="500.0" promptText="Búscar" />
+                                <Label layoutX="231.0" layoutY="14.0" minHeight="-Infinity" prefHeight="47.0" prefWidth="634.0" styleClass="welcome-label" text="Productos Faltantes" />
+                                <ImageView fitHeight="74.0" fitWidth="82.0" layoutX="130.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/LogoTienda.png" />
                                     </image>
                                 </ImageView>
-                                <TableView fx:id="tblProductsMissing" layoutX="24.0" layoutY="120.0" prefHeight="240.0" prefWidth="380.0">
+                                <TableView fx:id="tblProductsMissing" layoutX="73.0" layoutY="161.0" prefHeight="380.0" prefWidth="800.0">
                                     <columns>
-                                        <TableColumn fx:id="clnIdMissing" prefWidth="57.0" text="id" />
-                                        <TableColumn fx:id="clnNameMissing" prefWidth="95.0" text="Nombre" />
-                                        <TableColumn fx:id="clnDescriptionMissing" maxWidth="178.0" prefWidth="140.0" text="Descripción" />
-                                        <TableColumn fx:id="clnStockMissing" maxWidth="100.0" prefWidth="75.0" text="Stock" />
+                                        <TableColumn fx:id="clnIdMissing" minWidth="200.0" prefWidth="57.0" text="id" />
+                                        <TableColumn fx:id="clnNameMissing" minWidth="200.0" prefWidth="95.0" text="Nombre" />
+                                        <TableColumn fx:id="clnDescriptionMissing" maxWidth="178.0" minWidth="200.0" prefWidth="140.0" text="Descripción" />
+                                        <TableColumn fx:id="clnStockMissing" maxWidth="100.0" minWidth="200.0" prefWidth="75.0" text="Stock" />
                                     </columns>
                                 </TableView>
-                                <Pane layoutX="286.0" layoutY="68.0" prefHeight="47.0" prefWidth="70.0" styleClass="boton-buscar">
-                                    <Button fx:id="btnSearchProductMissing" mnemonicParsing="false" text="Búscar" />
+                                <Pane layoutX="714.0" layoutY="85.0" prefHeight="50.0" prefWidth="150.0" styleClass="boton-buscar">
+                                    <Button fx:id="btnSearchProductMissing" mnemonicParsing="false" onAction="#searchProductMissing" styleClass="boton-buscar" text="Búscar" />
                                 </Pane>
                             </children>
                         </AnchorPane>
                         <AnchorPane fx:id="viewAddProducts" prefHeight="230.0" prefWidth="426.0" visible="false">
                             <children>
-                                <Label layoutX="108.0" layoutY="25.0" styleClass="welcome-label" text="Alta de productos" />
-                                <ImageView fitHeight="47.0" fitWidth="72.0" layoutX="53.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                <Label layoutX="246.0" layoutY="24.0" styleClass="welcome-label" text="Alta de productos" />
+                                <ImageView fitHeight="74.0" fitWidth="82.0" layoutX="150.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../img/LogoTienda.png" />
                                 </ImageView>
-                                <Label layoutX="23.0" layoutY="70.0" prefHeight="40.0" prefWidth="150.0" text="Código de barras" />
-                                <Label layoutX="112.0" layoutY="110.0" prefHeight="40.0" prefWidth="61.0" text="Nombre" />
-                                <Label layoutX="30.0" layoutY="150.0" prefHeight="40.0" prefWidth="150.0" text="Precio de venta" />
-                                <Label layoutX="112.0" layoutY="190.0" prefHeight="40.0" prefWidth="61.0" text="Stock" />
-                                <Label layoutX="23.0" layoutY="230.0" prefHeight="40.0" prefWidth="107.0" text="Descripción" />
-                                <TextField fx:id="txtProductBarCode" layoutX="184.0" layoutY="80.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="código de barras" />
-                                <TextField fx:id="txtProductName" layoutX="184.0" layoutY="120.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="nombre" />
-                                <TextField fx:id="txtProductSalePrice" layoutX="184.0" layoutY="160.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="precio de venta" />
-                                <TextField fx:id="txtProductStock" layoutX="184.0" layoutY="200.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="stock" />
-                                <TextArea fx:id="txtProductDescription" layoutX="130.0" layoutY="241.0" prefHeight="62.0" prefWidth="273.0" />
-                                <Pane layoutX="166.0" layoutY="319.0" prefHeight="47.0" prefWidth="100.0" styleClass="boton-buscar">
+                                <Label layoutX="74.0" layoutY="110.0" prefHeight="40.0" prefWidth="226.0" styleClass="label-formulario" text="Código de barras" />
+                                <Label layoutX="190.0" layoutY="160.0" prefHeight="40.0" prefWidth="84.0" styleClass="label-formulario" text="Nombre" />
+                                <Label layoutX="90.0" layoutY="210.0" prefHeight="40.0" prefWidth="187.0" styleClass="label-formulario" text="Precio de venta" />
+                                <Label layoutX="210.0" layoutY="260.0" prefHeight="40.0" prefWidth="61.0" styleClass="label-formulario" text="Stock" />
+                                <Label layoutX="161.0" layoutY="310.0" prefHeight="40.0" prefWidth="119.0" styleClass="label-formulario" text="Proveedor" />
+                                <Label layoutX="137.0" layoutY="360.0" prefHeight="40.0" prefWidth="138.0" styleClass="label-formulario" text="Descripción" />
+                                <TextField fx:id="txtProductBarcode" layoutX="300.0" layoutY="110.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="código de barras" />
+                                <TextField fx:id="txtProductName" layoutX="300.0" layoutY="160.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="nombre" />
+                                <TextField fx:id="txtProductSalePrice" layoutX="300.0" layoutY="210.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="precio de venta" />
+                                <TextField fx:id="txtProductStock" layoutX="300.0" layoutY="260.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="stock" />
+                                <ComboBox fx:id="cbxProductSupplier" layoutX="300.0" layoutY="310.0" prefWidth="400.0" promptText="proveedor" styleClass="normal-combo-box" />
+                                <TextArea fx:id="txtProductDescription" layoutX="300.0" layoutY="360.0" prefHeight="150.0" prefWidth="400.0" />
+                                <Pane layoutX="384.0" layoutY="530.0" prefHeight="50.0" prefWidth="180.0" styleClass="boton-buscar">
                                     <children>
-                                        <Button mnemonicParsing="false" text="Guardar" />
+                                        <Button fx:id="btnSaveAddProducts" mnemonicParsing="false" onAction="#saveAddProducts" styleClass="boton-buscar" text="Guardar" />
                                     </children>
                                 </Pane>
                             </children>
@@ -114,29 +112,31 @@
                                 <String fx:value="text-field" />
                             </styleClass>
                         </AnchorPane>
-                        <AnchorPane fx:id="viewModificationProducts" prefHeight="200.0" prefWidth="200.0" visible="true">
+                        <AnchorPane fx:id="viewModificationProducts" prefHeight="200.0" prefWidth="200.0" visible="false">
                             <children>
                                 <Label layoutX="108.0" layoutY="25.0" styleClass="welcome-label" text="Modificación de productos" />
-                                <ImageView fitHeight="47.0" fitWidth="72.0" layoutX="53.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="74.0" fitWidth="82.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/LogoTienda.png" />
                                     </image>
                                 </ImageView>
-                                <Label layoutX="112.0" layoutY="100.0" prefHeight="40.0" prefWidth="150.0" text="Nombre" />
-                                <Label layoutX="30.0" layoutY="140.0" prefHeight="40.0" prefWidth="150.0" text="Precio de Venta" />
-                                <Label layoutX="112.0" layoutY="180.0" prefHeight="40.0" prefWidth="61.0" text="Stock" />
-                                <Label layoutX="23.0" layoutY="220.0" prefHeight="40.0" prefWidth="125.0" text="Descripción" />
-                                <TextField fx:id="txtNameProduct" layoutX="184.0" layoutY="100.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="nombre" />
-                                <TextField fx:id="txtSalePriceModification" layoutX="184.0" layoutY="140.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="precio de venta" />
-                                <TextField fx:id="txtStockModification" layoutX="184.0" layoutY="180.0" prefHeight="30.0" prefWidth="200.0" promptText="stock" />
-                                <TextArea layoutX="130.0" layoutY="220.0" prefHeight="90.0" prefWidth="273.0" />
-                                <Pane layoutX="166.0" layoutY="319.0" prefHeight="47.0" prefWidth="100.0" styleClass="boton-buscar">
+                               <Label layoutX="190.0" layoutY="110.0" prefHeight="40.0" prefWidth="74.0" styleClass="label-formulario" text="Búscar" />
+                                <Label layoutX="190.0" layoutY="160.0" prefHeight="40.0" prefWidth="74.0" styleClass="label-formulario" text="Nombre" />
+                                <Label layoutX="90.0" layoutY="210.0" prefHeight="40.0" prefWidth="187.0" styleClass="label-formulario" text="Precio de venta" />
+                                <Label layoutX="210.0" layoutY="260.0" prefHeight="40.0" prefWidth="61.0" styleClass="label-formulario" text="Stock" />
+                                <Label layoutX="161.0" layoutY="310.0" prefHeight="40.0" prefWidth="119.0" styleClass="label-formulario" text="Proveedor" />
+                                <Label layoutX="137.0" layoutY="360.0" prefHeight="40.0" prefWidth="138.0" styleClass="label-formulario" text="Descripción" />
+                               <TextField fx:id="txtSearchModification" layoutX="300.0" layoutY="110.0" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="450.0" promptText="búscar" />
+                                <TextField fx:id="txtNameProductModification" layoutX="300.0" layoutY="160.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="nombre" />
+                                <TextField fx:id="txtSalePriceModification" layoutX="300.0" layoutY="210.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="precio de venta" />
+                                <TextField fx:id="txtStockModification" layoutX="300.0" layoutY="260.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="stock" />
+                                <ComboBox fx:id="cbxSupplierModification" layoutX="300.0" layoutY="310.0" prefWidth="400.0" promptText="proveedor" />
+                                <TextArea fx:id="txtDescriptionModification" layoutX="300.0" layoutY="360.0" prefHeight="150.0" prefWidth="400.0" />
+                                <Pane layoutX="384.0" layoutY="530.0" prefHeight="50.0" prefWidth="180.0" styleClass="boton-buscar">
                                     <children>
-                                        <Button mnemonicParsing="false" text="Guardar" />
+                                        <Button fx:id="btnSaveModificationProducts" mnemonicParsing="false" onAction="#saveModificationProducts" styleClass="boton-buscar" text="Guardar" />
                                     </children>
                                 </Pane>
-                        <TextField fx:id="txtSearchModification" layoutX="142.0" layoutY="65.0" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="250.0" promptText="búscar" />
-                        <Label layoutX="60.0" layoutY="60.0" prefHeight="40.0" prefWidth="55.0" text="Búscar" />
                             </children>
                             <styleClass>
                                 <String fx:value="label-formulario" />

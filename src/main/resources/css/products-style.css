@@ -34,7 +34,7 @@
 }
 
 .welcome-label {
-    -fx-font-size: 20px;
+    -fx-font-size: 50px;
     -fx-text-fill: #555;
     -fx-font-family: "Courier New"; 
     -fx-font-weight: bold;
@@ -86,26 +86,27 @@
 }
 
 .boton-buscar {
-    -fx-background-color: #9d99e4; /* Morado moderno */
-    -fx-text-fill: rgb(0, 0, 0);          /* Texto blanco */
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-padding: 8 16;
-    -fx-background-radius: 10;
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: #fff;
+    -fx-font-size: 30px;
+    -fx-font-family: "Courier New";
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-color: #4b47b5;
+    -fx-border-width: 2px;
+    -fx-padding: 8 24 8 24;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 4, 0.2, 0, 2);
+    -fx-transition: background-color 0.3s;
 }
 
 .boton-buscar:hover {
-    -fx-background-color: #8067ff; /* Tono más oscuro al pasar el mouse */
-}
-
-.boton-buscar:pressed {
-    -fx-background-color: #8067ff;
+    -fx-background-color: #4b47b5;
+    -fx-text-fill: #fff;
 }
 
 .label-formulario{
-    -fx-font-size: 15px;
+    -fx-font-size: 20px;
     -fx-text-fill: #555;
     -fx-font-family: "Courier New"; 
 }
@@ -123,5 +124,17 @@
 /* Efecto al enfocar */
 .text-field:focused {
     -fx-border-color: #4A90E2;
-    -fx-effect: dropshadow(gaus)
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
+}
+
+.error-textfield {
+    -fx-border-color: red;
+    -fx-background-color: #ffe6e6;
+}
+
+.combo-box {
+    -fx-border-color: #bdbdbd;
+    -fx-background-color: #938cee;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
 }

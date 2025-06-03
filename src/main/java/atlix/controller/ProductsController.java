@@ -38,19 +38,23 @@ public class ProductsController {
     @FXML
     private Button btnModificationProduct;
     @FXML
+    private Button btnTotalProducts;
+    @FXML
+    private Button btnHomeProduct;
+    @FXML
     private Button btnSearchProductMissing;
     @FXML
     private Button btnSearchProductTotal;
     @FXML
-    private Button btnTotalProducts;
-
+    private Button btnSaveAddProducts;
+    @FXML
+    private Button btnSaveModificationProducts;
     @FXML
     private TableView<atlix.model.beans.ProductBean> tblProductTotal;
     @FXML
     private TableView<atlix.model.beans.ProductBean> tblProductsMissing;
-
     @FXML
-    private TextField txtProductBarCode;
+    private TextField txtProductBarcode;
     @FXML
     private TextField txtProductName;
     @FXML
@@ -59,16 +63,24 @@ public class ProductsController {
     private TextField txtProductStock;
     @FXML
     private TextArea txtProductDescription;
-
+    @FXML
+    private TextArea txtDescriptionModification;
     @FXML
     private TextField txtSalePriceModification;
     @FXML
     private TextField txtStockModification;
     @FXML
+    private TextField txtNameProductModification;
+    @FXML
+    private TextField txtSearchModification;
+    @FXML
     private TextField txtSearchProductMissing;
     @FXML
     private TextField txtSearchProductTotal;
-
+    @FXML
+    private ComboBox<String> cbxProductSupplier;
+    @FXML
+    private ComboBox<String> cbxSupplierModification;
     @FXML
     private AnchorPane viewAddProducts;
     @FXML
@@ -78,157 +90,216 @@ public class ProductsController {
     @FXML
     private AnchorPane viewTotalProducts;
 
-    private final ProductsService productsService = new ProductsService();
+    //private final ProductsService productsService = new ProductsService();
 
     @FXML
     public void initialize() {
-        showAddProducts();
-        setupKeyboardEvents();
-        clnDescriptionTotal.setCellValueFactory(new PropertyValueFactory<>("description"));
+        configureEvents();
+    }
+
+    public void configureEvents() {
+        btnTotalProducts.setOnAction(event -> {
+            goToTotalProducts(); //Cuando se presiona el boton llama a la vista y muestra los productos en la tabla
+            totalProducts();
+        });
+        btnMissingProducts.setOnAction(event -> {
+            goToMissingProducts();
+            missingProducts();
+        });
+        btnAddProduct.setOnAction(event -> goToAddProducts());
+        btnModificationProduct.setOnAction(event -> goToModificationProducts());
+        btnHomeProduct.setOnAction(event -> goToHome());
+    }
+
+    public void goToTotalProducts() {
+        resetFieldStyles();
+        viewTotalProducts.setVisible(true);
+        viewMissingProducts.setVisible(false);
+        viewAddProducts.setVisible(false);
+        viewModificationProducts.setVisible(false);
+    }
+
+    public void goToMissingProducts() {
+        resetFieldStyles();
+        viewTotalProducts.setVisible(false);
+        viewMissingProducts.setVisible(true);
+        viewAddProducts.setVisible(false);
+        viewModificationProducts.setVisible(false);
+    }
+
+    public void goToAddProducts() {
+        resetFieldStyles();
+        viewTotalProducts.setVisible(false);
+        viewMissingProducts.setVisible(false);
+        viewAddProducts.setVisible(true);
+        viewModificationProducts.setVisible(false);
+
+        txtProductBarcode.clear();
+        txtProductName.clear();
+        txtProductSalePrice.clear();
+        txtProductStock.clear();
+        txtProductDescription.clear();
+    }
+
+    public void goToModificationProducts() {
+        resetFieldStyles();
+        viewTotalProducts.setVisible(false);
+        viewMissingProducts.setVisible(false);
+        viewAddProducts.setVisible(false);
+        viewModificationProducts.setVisible(true);
+
+        txtSearchModification.clear();
+        txtNameProductModification.clear();
+        txtSalePriceModification.clear();
+        txtStockModification.clear();
+        txtDescriptionModification.clear();
+        cbxSupplierModification.getSelectionModel().clearSelection();
+    }
+
+    public void goToHome() {
+        //productService.loadMainView();
+        // var stage = (Stage) btnHomeProduct.getScene().getWindow();
+        // productService.closeWindow(stage);
+    }
+
+    //Funcionamiento de produstos totales
+    public void totalProducts() {
         clnIdTotal.setCellValueFactory(new PropertyValueFactory<>("id"));
         clnNameTotal.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clnDescriptionTotal.setCellValueFactory(new PropertyValueFactory<>("description"));
         clnStockTotal.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
-        tblProductTotal.setItems(FXCollections.observableArrayList(productsService.getAllProducts()));
-
-        clnDescriptionMissing.setCellValueFactory(new PropertyValueFactory<>("description"));
-        clnIdMissing.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clnNameMissing.setCellValueFactory(new PropertyValueFactory<>("name"));
-        clnStockMissing.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        tblProductsMissing.setItems(FXCollections.observableArrayList(productsService.getMissingProductsStock()));
+        //tblProductTotal.setItems(FXCollections.observableArrayList(productsService.getAllProducts()));
     }
 
-    private void setupKeyboardEvents() {
-        txtProductBarCode.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN) txtProductName.requestFocus();
-        });
-
-        txtProductName.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN) txtProductSalePrice.requestFocus();
-            else if (event.getCode() == KeyCode.UP) txtProductBarCode.requestFocus();
-        });
-
-        txtProductSalePrice.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN) txtProductStock.requestFocus();
-            else if (event.getCode() == KeyCode.UP) txtProductName.requestFocus();
-        });
-
-        txtProductStock.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.DOWN)
-                txtProductDescription.requestFocus();
-            else if (event.getCode() == KeyCode.UP) txtProductSalePrice.requestFocus();
-        });
-
-        txtProductDescription.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) btnAddProduct.fire();
-            else if (event.getCode() == KeyCode.UP) txtProductStock.requestFocus();
-        });
-    }
-
-    @FXML
-    public void showTotalProducts() {
-        setActiveView(viewTotalProducts);
-        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Productos Totales.");
-    }
-
-    @FXML
-    public void showMissingProducts() {
-        setActiveView(viewMissingProducts);
-        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Productos Faltantes.");
-    }
-
-    @FXML
-    public void showAddProducts() {
-        setActiveView(viewAddProducts);
-        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Alta de Productos.");
-    }
-
-    @FXML
-    public void showModificationProducts() {
-        setActiveView(viewModificationProducts);
-        ShowAlert.INSTANCE.showAlert("INFORMATION", "Vista", "", "Mostrando Modificación de Productos.");
-    }
-
-    private void setActiveView(AnchorPane active) {
-        viewAddProducts.setVisible(false);
-        viewMissingProducts.setVisible(false);
-        viewModificationProducts.setVisible(false);
-        viewTotalProducts.setVisible(false);
-        active.setVisible(true);
-    }
-
-    @FXML
-    public void saveProduct() {
-        String code = txtProductBarCode.getText().trim();
-        String nombre = txtProductName.getText().trim();
-        String precioStr = txtProductSalePrice.getText().trim();
-        String stockStr = txtProductStock.getText().trim();
-        String description = txtProductDescription.getText().trim();
-
-        if (validateEmpty(code, txtProductBarCode) |
-                validateEmpty(nombre, txtProductName) |
-                validateEmpty(precioStr, txtProductSalePrice) |
-                validateEmpty(stockStr, txtProductStock) |
-                validateEmpty(description, txtProductDescription)) {
-            ShowAlert.INSTANCE.showAlert("WARNING", "Campos incompletos", "", "Por favor completa todos los campos.");
+    public void searchProductTotal() {
+        var searchProduct = txtSearchProductTotal.getText().trim();
+        if (searchProduct.isEmpty()) {
+            txtSearchProductTotal.getStyleClass().add("error-textfield");//cambia el estilo del textfield
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "Se debe ingresar un producto a busar");
             return;
         }
+        /*var products = productsService.searchProductTotal(searchProduct);
+        if(products.isEmpty()){
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Producto no encontrado");
+        }*/
+    }
 
-        try {
-            Double.parseDouble(precioStr);
-            Integer.parseInt(stockStr);
-            ShowAlert.INSTANCE.showAlert("INFORMATION", "Producto guardado", "", "El producto fue registrado correctamente.");
-            txtProductBarCode.clear();
+    //Funcionamiento de productos faltantes
+    public void missingProducts() {
+        clnIdMissing.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clnNameMissing.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clnDescriptionMissing.setCellValueFactory(new PropertyValueFactory<>("description"));
+        clnStockMissing.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+        //tblProductsMissing.setItems(FXCollections.observableArrayList(productsService.getAllProducts()));
+    }
+
+    public void searchProductMissing() {
+        var searchProduct = txtSearchProductMissing.getText().trim();
+        if (searchProduct.isEmpty()) {
+            txtSearchProductMissing.getStyleClass().add("error-textfield");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "Se debe ingresar un producto a busar");
+            return;
+        }
+        /*var products = productsService.searchProductMissing(searchProduct);
+        if(products.isEmpty()){
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Producto faltante no encontrado");
+        }*/
+    }
+
+    //Funcionamiento de agregar productos
+    public void saveAddProducts() {
+        var barcode = txtProductBarcode.getText().trim();
+        var name = txtProductName.getText().trim();
+        var salePrice = txtProductSalePrice.getText().trim();
+        var stock = txtProductStock.getText().trim();
+        var supplier = cbxProductSupplier.getValue();
+        var description = txtProductDescription.getText();
+
+        if (barcode.isEmpty() || name.isEmpty() || salePrice.isEmpty() || stock.isEmpty() || supplier == null) {
+            txtProductBarcode.getStyleClass().add("error-textfield");
+            txtProductName.getStyleClass().add("error-textfield");
+            txtProductSalePrice.getStyleClass().add("error-textfield");
+            txtProductStock.getStyleClass().add("error-textfield");
+            cbxProductSupplier.setStyle(
+                    "-fx-border-color: red;"
+                            + "    -fx-border-width: 2px;"
+                            + "    -fx-background-color: #fdecea;");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Ingrese todos los campos obligatorios");
+            return;
+        }
+        /*atlix.model.beans.ProductBean product = new atlix.model.beans.ProductBean(
+                barcode, name, Double.parseDouble(salePrice), Integer.parseInt(stock), supplier, description
+        );
+
+        boolean success = productsService.addProduct(product);
+        if (success) {
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Éxito", null, "Producto agregado correctamente.");
+            txtProductBarcode.clear();
             txtProductName.clear();
             txtProductSalePrice.clear();
             txtProductStock.clear();
             txtProductDescription.clear();
-        } catch (NumberFormatException e) {
-            ShowAlert.INSTANCE.showAlert("ERROR", "Formato inválido", "", "Precio y stock deben ser números.");
-        }
+        } else {
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "No se pudo agregar el producto.");
+        }*/
     }
 
-    @FXML
-    public void modifyProduct() {
-        String precio = txtSalePriceModification.getText().trim();
-        String stock = txtStockModification.getText().trim();
+    //Funcionamiento de modificar productos
+    public void saveModificationProducts() {
+        var searchProduct = txtSearchModification.getText().trim();
+        var name = txtNameProductModification.getText().trim();
+        var salePrice = txtSalePriceModification.getText().trim();
+        var stock = txtStockModification.getText().trim();
+        var supplier = cbxSupplierModification.getValue();
+        var description = txtDescriptionModification.getText().trim();
 
-        if (validateEmpty(precio, txtSalePriceModification) |
-                validateEmpty(stock, txtStockModification)) {
-            ShowAlert.INSTANCE.showAlert("WARNING", "Campos vacíos", "", "Completa todos los campos de modificación.");
+        if (searchProduct.isEmpty()) {
+            txtSearchModification.getStyleClass().add("error-textfield");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Se debe ingresar un producto a modificar");
+        } else if (name.isEmpty() || salePrice.isEmpty() || stock.isEmpty() || supplier.isEmpty()) {
+            txtSearchModification.getStyleClass().remove("error-textfield");
+            txtNameProductModification.getStyleClass().add("error-textfield");
+            txtSalePriceModification.getStyleClass().add("error-textfield");
+            txtStockModification.getStyleClass().add("error-textfield");
+            cbxSupplierModification.setStyle(
+                    " -fx-border-color: red;"
+                            + "    -fx-border-width: 2px;"
+                            + "    -fx-background-color: #fdecea;");
+
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Ingrese todos los campos obligatorios");
             return;
         }
+        /*atlix.model.beans.ProductBean product = new atlix.model.beans.ProductBean(
+                name, Double.parseDouble(salePrice), Integer.parseInt(stock), supplier, description
+        );
 
-        try {
-            Double.parseDouble(precio);
-            Integer.parseInt(stock);
-            ShowAlert.INSTANCE.showAlert("INFORMATION", "Modificación exitosa", "", "Producto modificado correctamente.");
+        boolean success = productsService.modifyProduct(product);
+        if (success) {
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Éxito", null, "Producto modificado correctamente.");
+            txtNameProductModification.clear();
             txtSalePriceModification.clear();
             txtStockModification.clear();
-        } catch (NumberFormatException e) {
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error de formato", "", "Verifica el precio y stock ingresados.");
-        }
+            txtDescriptionModification.clear();
+        } else {
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "No se pudo modificar el producto.");
+        }*/
     }
 
-    @FXML
-    public void search() {
-        String search = txtSearchProductTotal.getText().trim();
-        if (search.isEmpty()) {
-            txtSearchProductTotal.setStyle("-fx-border-color: crimson; -fx-border-width: 2px;");
-            ShowAlert.INSTANCE.showAlert("WARNING", "Campo vacío", "", "Introduce un nombre o código a buscar.");
-        } else {
-            txtSearchProductTotal.setStyle("");
-            ShowAlert.INSTANCE.showAlert("INFORMATION", "Búsqueda", "", "Buscando: " + search);
-        }
-    }
-
-    private boolean validateEmpty(String value, TextInputControl field) {
-        if (value.isEmpty()) {
-            field.setStyle("-fx-border-color: crimson; -fx-border-width: 2px;");
-            return true;
-        } else {
-            field.setStyle("");
-            return false;
-        }
+    //Quita los estilos de error de los campos de texto
+    private void resetFieldStyles() {
+        txtProductBarcode.getStyleClass().remove("error-textfield");
+        txtProductName.getStyleClass().remove("error-textfield");
+        txtProductSalePrice.getStyleClass().remove("error-textfield");
+        txtProductStock.getStyleClass().remove("error-textfield");
+        cbxProductSupplier.setStyle("");
+        txtSearchProductMissing.getStyleClass().remove("error-textfield");
+        txtSearchProductTotal.getStyleClass().remove("error-textfield");
+        txtSearchModification.getStyleClass().remove("error-textfield");
+        txtNameProductModification.getStyleClass().remove("error-textfield");
+        txtSalePriceModification.getStyleClass().remove("error-textfield");
+        txtStockModification.getStyleClass().remove("error-textfield");
+        cbxSupplierModification.setStyle("");
     }
 }
