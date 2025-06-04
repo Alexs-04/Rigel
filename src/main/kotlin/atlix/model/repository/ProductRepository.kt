@@ -20,12 +20,15 @@ class ProductRepository {
     }
 
 
-    private fun findById(id: Long): ProductBean? {
+    fun findById(id: Long): ProductBean? {
         return entityManager.find(ProductBean::class.java, id)
     }
 
     fun findByBarCode(barCode: Long): ProductBean? {
-        return entityManager.createQuery("SELECT p FROM ProductBean p WHERE p.barCode = :barCode", ProductBean::class.java)
+        return entityManager.createQuery(
+            "SELECT p FROM ProductBean p WHERE p.barCode = :barCode",
+            ProductBean::class.java
+        )
             .setParameter("barCode", barCode)
             .resultList
             .firstOrNull()
@@ -37,7 +40,7 @@ class ProductRepository {
     }
 
     @Transactional
-    fun update(product: ProductBean) {
+    fun update(product: ProductBean?) {
         entityManager.transaction.begin()
         entityManager.merge(product)
         entityManager.transaction.commit()

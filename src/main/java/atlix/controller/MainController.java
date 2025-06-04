@@ -40,6 +40,9 @@ public class MainController {
     }
 
     private void goToSales() {
+        mainService.loadSalesView();
+        var stage = (Stage) btnSales.getScene().getWindow();
+        mainService.closeWindow(stage);
     }
 
     private void goToShopping() {

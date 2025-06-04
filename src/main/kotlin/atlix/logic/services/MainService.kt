@@ -28,15 +28,16 @@ class MainService {
         }
     }
 
-    fun loadSalesView() {/*
+    fun loadSalesView() {
         try {
             WindowLoader().showWindow(
-                Paths.SALES_VIEW,
+                Paths.MENU_SALES_VIEW,
                 "Administración de Ventas", false
             )
         } catch (e: LoadException) {
             e.printStackTrace()
             throw RuntimeException("Error al cargar la vista de ventas: ${e.message}")
-        }*/
+        }
     }
+
 }
