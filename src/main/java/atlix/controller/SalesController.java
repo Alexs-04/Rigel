@@ -53,9 +53,9 @@ public class SalesController {
     }
 
     public void goToHome() {
-        //productService.loadMenuSales();
+        //SaleService.loadMenuSales();
         // var stage = (Stage) btnHomeProduct.getScene().getWindow();
-        // productService.closeWindow(stage);
+        // SaleService.closeWindow(stage);
     }
 
     public void searchSaleProduct() {
@@ -88,10 +88,10 @@ public class SalesController {
     public void ticketSale() {
         var productos = tblSaleProducts.getItems();
         if (productos == null || productos.isEmpty()) {
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "No hay productos para generar el ticket");
+            ShowAlert.INSTANCE.showAlert("WARNING", "Sin productos", null, "No hay productos para generar el ticket");
             return;
         }
-        //(double total = ProductsService.getTotalSale(productos); //Asigna el total de la venta al label
+        //(double total = SaleService.getTotalSale(productos); //Asigna el total de la venta al label
         //lblSaleTotal.setText(String.valueOf(total));
 
         // Suponiendo que tienes un servicio para generar el ticket
