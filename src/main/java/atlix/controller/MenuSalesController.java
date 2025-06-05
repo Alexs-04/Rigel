@@ -1,6 +1,7 @@
 package atlix.controller;
 
 import atlix.logic.services.ProductsService;
+import atlix.logic.services.SaleService;
 import atlix.util.ShowAlert;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -61,6 +62,8 @@ public class MenuSalesController {
     @FXML
     private AnchorPane viewRecords;
 
+    private final SaleService saleService = new SaleService();
+
     public void initialize() {
 
     }
@@ -73,8 +76,8 @@ public class MenuSalesController {
     }
 
     public void goToSale() {
-        //productService.loadSalesView();
-        // var stage = (Stage) btnHomeProduct.getScene().getWindow();
+        //SaleService.loadSalesView();
+        // var stage = (Stage) btnMenuSale.getScene().getWindow();
         // productService.closeWindow(stage);
     }
 
@@ -89,9 +92,9 @@ public class MenuSalesController {
     }
 
     public void goToHome() {
-        //productService.loadMainView();
-        // var stage = (Stage) btnHomeProduct.getScene().getWindow();
-        // productService.closeWindow(stage);
+        //SaleService.loadMenuHome();
+        var stage = (Stage) btnMenuHome.getScene().getWindow();
+        //SaleService.closeWindow(stage);
     }
 
     public void earningTable() {

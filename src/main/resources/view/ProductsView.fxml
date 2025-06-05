@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.ProductsController">
+<VBox prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.ProductsController">
     <SplitPane dividerPositions="0.18948247078464106" prefHeight="610.0" prefWidth="1200.0" stylesheets="@../css/products-style.css">
         <AnchorPane fx:id="AnchorButtons" minHeight="0.0" minWidth="0.0" prefHeight="514.0" prefWidth="226.0">
             <styleClass>
@@ -56,7 +56,7 @@
                                 </ImageView>
                                 <Pane layoutX="714.0" layoutY="85.0" prefHeight="50.0" prefWidth="150.0" styleClass="boton-buscar">
                                     <children>
-                                        <Button fx:id="btnSearchProductTotal" mnemonicParsing="false" onAction="#searchProductTotal" styleClass="boton-buscar" text="Búscar" />
+                                        <Button fx:id="btnSearchProductTotal" mnemonicParsing="false" onAction="#searchProductTotal" styleClass="boton-buscar" text="Buscar" />
                                     </children>
                                 </Pane>
                             </children>
@@ -79,7 +79,7 @@
                                     </columns>
                                 </TableView>
                                 <Pane layoutX="714.0" layoutY="85.0" prefHeight="50.0" prefWidth="150.0" styleClass="boton-buscar">
-                                    <Button fx:id="btnSearchProductMissing" mnemonicParsing="false" onAction="#searchProductMissing" styleClass="boton-buscar" text="Búscar" />
+                                    <Button fx:id="btnSearchProductMissing" mnemonicParsing="false" onAction="#searchProductMissing" styleClass="boton-buscar" text="Buscar" />
                                 </Pane>
                             </children>
                         </AnchorPane>
@@ -92,15 +92,17 @@
                                 <Label layoutX="74.0" layoutY="110.0" prefHeight="40.0" prefWidth="226.0" styleClass="label-formulario" text="Código de barras" />
                                 <Label layoutX="190.0" layoutY="160.0" prefHeight="40.0" prefWidth="84.0" styleClass="label-formulario" text="Nombre" />
                                 <Label layoutX="90.0" layoutY="210.0" prefHeight="40.0" prefWidth="187.0" styleClass="label-formulario" text="Precio de venta" />
-                                <Label layoutX="210.0" layoutY="260.0" prefHeight="40.0" prefWidth="61.0" styleClass="label-formulario" text="Stock" />
-                                <Label layoutX="161.0" layoutY="310.0" prefHeight="40.0" prefWidth="119.0" styleClass="label-formulario" text="Proveedor" />
-                                <Label layoutX="137.0" layoutY="360.0" prefHeight="40.0" prefWidth="138.0" styleClass="label-formulario" text="Descripción" />
+                        <Label layoutX="80.0" layoutY="260.0" prefHeight="40.0" prefWidth="195.0" styleClass="label-formulario" text="Precio de compra" />
+                                <Label layoutX="210.0" layoutY="310.0" prefHeight="40.0" prefWidth="61.0" styleClass="label-formulario" text="Stock" />
+                                <Label layoutX="161.0" layoutY="360.0" prefHeight="40.0" prefWidth="119.0" styleClass="label-formulario" text="Proveedor" />
+                                <Label layoutX="137.0" layoutY="410.0" prefHeight="40.0" prefWidth="138.0" styleClass="label-formulario" text="Descripción" />
                                 <TextField fx:id="txtProductBarcode" layoutX="300.0" layoutY="110.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="código de barras" />
                                 <TextField fx:id="txtProductName" layoutX="300.0" layoutY="160.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="nombre" />
                                 <TextField fx:id="txtProductSalePrice" layoutX="300.0" layoutY="210.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="precio de venta" />
-                                <TextField fx:id="txtProductStock" layoutX="300.0" layoutY="260.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="stock" />
-                                <ComboBox fx:id="cbxProductSupplier" layoutX="300.0" layoutY="310.0" prefWidth="400.0" promptText="proveedor" styleClass="normal-combo-box" />
-                                <TextArea fx:id="txtProductDescription" layoutX="300.0" layoutY="360.0" prefHeight="150.0" prefWidth="400.0" />
+                                <TextField fx:id="txtProductPurchasePrice" layoutX="300.0" layoutY="260.0" prefHeight="30.0" prefWidth="400.0" promptText="precio de compra" />
+                                <TextField fx:id="txtProductStock" layoutX="300.0" layoutY="310.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="stock" />
+                                <ComboBox fx:id="cbxProductSupplier" layoutX="300.0" layoutY="360.0" prefWidth="400.0" promptText="proveedor" styleClass="normal-combo-box" />
+                                <TextArea fx:id="txtProductDescription" layoutX="300.0" layoutY="410.0" prefHeight="100.0" prefWidth="400.0" />
                                 <Pane layoutX="384.0" layoutY="530.0" prefHeight="50.0" prefWidth="180.0" styleClass="boton-buscar">
                                     <children>
                                         <Button fx:id="btnSaveAddProducts" mnemonicParsing="false" onAction="#saveAddProducts" styleClass="boton-buscar" text="Guardar" />
@@ -120,13 +122,13 @@
                                         <Image url="@../img/LogoTienda.png" />
                                     </image>
                                 </ImageView>
-                               <Label layoutX="190.0" layoutY="110.0" prefHeight="40.0" prefWidth="74.0" styleClass="label-formulario" text="Búscar" />
+                               <Label layoutX="190.0" layoutY="110.0" prefHeight="40.0" prefWidth="74.0" styleClass="label-formulario" text="Buscar" />
                                 <Label layoutX="190.0" layoutY="160.0" prefHeight="40.0" prefWidth="74.0" styleClass="label-formulario" text="Nombre" />
                                 <Label layoutX="90.0" layoutY="210.0" prefHeight="40.0" prefWidth="187.0" styleClass="label-formulario" text="Precio de venta" />
                                 <Label layoutX="210.0" layoutY="260.0" prefHeight="40.0" prefWidth="61.0" styleClass="label-formulario" text="Stock" />
                                 <Label layoutX="161.0" layoutY="310.0" prefHeight="40.0" prefWidth="119.0" styleClass="label-formulario" text="Proveedor" />
                                 <Label layoutX="137.0" layoutY="360.0" prefHeight="40.0" prefWidth="138.0" styleClass="label-formulario" text="Descripción" />
-                               <TextField fx:id="txtSearchModification" layoutX="300.0" layoutY="110.0" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="450.0" promptText="búscar" />
+                               <TextField fx:id="txtSearchModification" layoutX="300.0" layoutY="110.0" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="450.0" promptText="buscar" />
                                 <TextField fx:id="txtNameProductModification" layoutX="300.0" layoutY="160.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="nombre" />
                                 <TextField fx:id="txtSalePriceModification" layoutX="300.0" layoutY="210.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="precio de venta" />
                                 <TextField fx:id="txtStockModification" layoutX="300.0" layoutY="260.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="400.0" promptText="stock" />

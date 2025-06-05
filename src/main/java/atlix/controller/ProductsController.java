@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 public class ProductsController {
 
-    private TextField txtPurchasePrice;
     @FXML
     private TableColumn<Product, String> clnIdMissing;
     @FXML
@@ -82,6 +81,8 @@ public class ProductsController {
     @FXML
     private TextField txtSearchProductTotal;
     @FXML
+    private TextField txtProductPurchasePrice;
+    @FXML
     private ComboBox<String> cbxProductSupplier;
     @FXML
     private ComboBox<String> cbxSupplierModification;
@@ -106,6 +107,8 @@ public class ProductsController {
         });
         cbxProductSupplier.setItems(FXCollections.observableArrayList(productsService.getNamesForSuppliers()));
         cbxSupplierModification.setItems(FXCollections.observableArrayList(productsService.getNamesForSuppliers()));
+
+        totalProducts();
     }
 
     public void configureEvents() {
@@ -144,7 +147,6 @@ public class ProductsController {
         viewMissingProducts.setVisible(false);
         viewAddProducts.setVisible(true);
         viewModificationProducts.setVisible(false);
-        clearAddProductFields();
     }
 
     public void goToModificationProducts() {
@@ -168,6 +170,7 @@ public class ProductsController {
         if (searchProduct.isEmpty()) {
             txtSearchProductTotal.getStyleClass().add("error-textfield");//cambia el estilo del textfield
             ShowAlert.INSTANCE.showAlert("WARNING", "Campos vacíos", null, "Se debe ingresar un producto a búscar");
+            totalProducts();
             return;
         }
         var barCode = Long.parseLong(searchProduct);
@@ -175,9 +178,11 @@ public class ProductsController {
         if (product == null) {
             ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Producto no encontrado");
             return;
+
         }
-        tblProductTotal.getColumns().clear();
+        tblProductTotal.getItems().clear();
         tblProductTotal.getItems().add(product);
+        txtSearchProductTotal.clear();
     }
 
     //Funcionamiento de productos faltantes
@@ -191,30 +196,31 @@ public class ProductsController {
         var barCode = Long.parseLong(searchProduct);
         Product product = productsService.searchProductByBarCode(barCode);
         if (product == null) {
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Producto no encontrado");
+            ShowAlert.INSTANCE.showAlert("WARNING", "Sin producto", "", "Producto no encontrado");
             return;
         }
         //Vacíar la tabla y posteriormente agregar el producto encontrado
         tblProductsMissing.getItems().clear();
         tblProductsMissing.getItems().add(product);
+        txtSearchProductMissing.clear();
     }
 
     //Funcionamiento de agregar productos
     public void saveAddProducts() {
+        var supplier = cbxProductSupplier.getValue();
+        if (!validateRequiredFields(txtProductBarcode, txtProductName, txtProductSalePrice, txtProductPurchasePrice, txtProductStock) || (supplier == null)) {
+            cbxProductSupplier.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-background-color: #fdecea;");
+
+            ShowAlert.INSTANCE.showAlert("WARNING", "Campos incompletos", "", "Ingrese todos los campos obligatorios");
+            return;
+        }
         var barcode = Long.parseLong(txtProductBarcode.getText().trim());
         var name = txtProductName.getText().trim();
         var salePrice = Double.parseDouble(txtProductSalePrice.getText().trim());
         var stock = Integer.parseInt(txtProductStock.getText().trim());
-        var supplier = cbxProductSupplier.getValue();
         var description = txtProductDescription.getText();
-        //var purchasePrice = Double.parseDouble(txtPurchasePrice.getText().trim());
+        var purchasePrice = Double.parseDouble(txtProductPurchasePrice.getText().trim());
 
-        if (!validateRequiredFields(txtProductBarcode, txtProductName, txtProductSalePrice/*, txtPurchasePrice*/) || (supplier == null)) {
-            cbxProductSupplier.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-background-color: #fdecea;");
-
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Ingrese todos los campos obligatorios");
-            return;
-        }
 
         Product product = new Product(barcode, name, description, salePrice, stock, 0);
 
@@ -226,11 +232,7 @@ public class ProductsController {
 
         if (success) {
             ShowAlert.INSTANCE.showAlert("INFORMATION", "Éxito", null, "Producto agregado correctamente.");
-            txtProductBarcode.clear();
-            txtProductName.clear();
-            txtProductSalePrice.clear();
-            txtProductStock.clear();
-            txtProductDescription.clear();
+            clearAddProductFields();
         } else {
             ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "No se pudo agregar el producto.");
         }
@@ -238,24 +240,35 @@ public class ProductsController {
 
     //Funcionamiento de modificar productos
     public void saveModificationProducts() {
-        Product product = productsService.searchProductByBarCode(
-                Long.parseLong(txtSearchModification.getText().trim())
-        );
-
+        Product product = null;
+        if (txtSearchModification.getText().trim().isEmpty()) {
+            txtSearchModification.getStyleClass().add("error-textfield");
+            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Se debe ingresar un producto a modificar");
+            return;
+        } else {
+            product = productsService.searchProductByBarCode(
+                    Long.parseLong(txtSearchModification.getText().trim())
+            );
+        }
         if (product == null) {
             return;
         }
+        var validFields = validateRequiredFields(txtNameProductModification, txtSalePriceModification, txtStockModification);
+        var supplier = cbxSupplierModification.getValue();
 
-        if (validateRequiredFields(txtNameProductModification, txtSalePriceModification, txtStockModification)
-                && !cbxSupplierModification.getValue().isEmpty()) {
+        boolean supplierEmpty = (supplier == null || supplier.trim().isEmpty());
+        if (!validFields && supplierEmpty) {
+            ShowAlert.INSTANCE.showAlert("WARNING", "Campos incompletos", "", "Ingrese todos los campos obligatorios");
+            cbxSupplierModification.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-background-color: #fdecea;");
+        }
+
+        if (validFields && !supplierEmpty) {
             var name = txtNameProductModification.getText().trim();
             var salePrice = txtSalePriceModification.getText().trim();
             var stock = txtStockModification.getText().trim();
-            var supplier = cbxSupplierModification.getValue();
             var description = txtDescriptionModification.getText().trim();
 
             boolean flag = !supplier.equals(supplierAux);
-
 
             Product updatedProduct = new Product(
                     product.barCode(),
@@ -266,7 +279,6 @@ public class ProductsController {
                     product.id()
             );
 
-
             if (productsService.updateProduct(
                     updatedProduct,
                     productsService.getIdForSupplier(supplier),
@@ -274,10 +286,8 @@ public class ProductsController {
                     flag
             )) {
                 ShowAlert.INSTANCE.showAlert("INFORMATION", "Éxito", null, "Producto modificado correctamente.");
+                clearModificationFields();
             }
-        } else {
-            cbxSupplierModification.setStyle(" -fx-border-color: red; -fx-border-width: 2px; -fx-background-color: #fdecea;");
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "Ingrese todos los campos obligatorios");
         }
 
     }
@@ -328,6 +338,7 @@ public class ProductsController {
         txtProductBarcode.getStyleClass().remove("error-textfield");
         txtProductName.getStyleClass().remove("error-textfield");
         txtProductSalePrice.getStyleClass().remove("error-textfield");
+        txtProductPurchasePrice.getStyleClass().remove("error-textfield");
         txtProductStock.getStyleClass().remove("error-textfield");
         cbxProductSupplier.setStyle("");
         txtSearchProductMissing.getStyleClass().remove("error-textfield");
@@ -372,8 +383,10 @@ public class ProductsController {
         txtProductBarcode.clear();
         txtProductName.clear();
         txtProductSalePrice.clear();
+        txtProductPurchasePrice.clear();
         txtProductStock.clear();
         txtProductDescription.clear();
+        cbxSupplierModification.getSelectionModel().clearSelection();
     }
 
     private void clearModificationFields() {
