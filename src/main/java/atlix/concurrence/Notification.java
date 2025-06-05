@@ -1,7 +1,5 @@
 package atlix.concurrence;
 
-import atlix.util.ShowAlert;
-
 import javax.swing.*;
 
 public class Notification{
