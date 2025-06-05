@@ -1,13 +1,13 @@
 package atlix.controller;
 
 import atlix.data.Product;
+import atlix.logic.services.LoadViewService;
 import atlix.logic.services.ProductsService;
 import atlix.util.ShowAlert;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -96,6 +96,7 @@ public class ProductsController {
     private AnchorPane viewTotalProducts;
 
     private final ProductsService productsService = new ProductsService();
+    private final LoadViewService loadViewService = new LoadViewService();
     private String supplierAux;
 
     @FXML
@@ -160,9 +161,9 @@ public class ProductsController {
     }
 
     public void goToHome() {
-        productsService.loadMainView();
+        loadViewService.loadMainView();
         var stage = (Stage) btnHomeProduct.getScene().getWindow();
-        productsService.closeWindow(stage);
+        loadViewService.closeWindow(stage);
     }
 
     public void searchProductTotal() {
@@ -227,7 +228,7 @@ public class ProductsController {
         boolean success = productsService.saveProductWithSupplier(
                 product,
                 productsService.getIdForSupplier(supplier),
-                20
+                purchasePrice
         );
 
         if (success) {

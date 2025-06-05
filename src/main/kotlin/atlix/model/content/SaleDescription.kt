@@ -17,10 +17,10 @@ class SaleDescription(
     var id: Long = 0L,
     @ManyToOne
     @JoinColumn(name = "sale_id")
-    var sale: SaleBean,
+    var sale: SaleBean = SaleBean(),
     @ManyToOne
     @JoinColumn(name = "product_id")
-    var product: ProductBean,
+    var product: ProductBean = ProductBean(),
     var amount: Int = 0,
     var price: Double = 0.0,
     var subtotal: Double = 0.0

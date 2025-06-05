@@ -1,31 +1,44 @@
 package atlix.logic.services
 
-import atlix.data.Sale
+
 import atlix.model.beans.SaleBean
+import atlix.model.content.SaleDescription
 import atlix.model.repository.SaleRepository
-import atlix.util.Paths
-import atlix.util.WindowLoader
-import javafx.fxml.LoadException
+import java.time.LocalDate
+
 
 class SaleService {
 
     private val saleRepository: SaleRepository = SaleRepository()
 
-    fun showDetailsForSale() {
-        try {
-            WindowLoader().showWindow("", "", false)
-        } catch (e: LoadException) {
-            throw RuntimeException("Error while loading sale data", e)
-        }
+    fun getAllSales(): List<SaleBean> {
+        return saleRepository.findAll()
     }
 
-    fun loadSalesView() {
-        try {
-            WindowLoader().showWindow(Paths.SALES_VIEW, "Punto de Venta", false)
-        } catch (e: LoadException) {
-            throw RuntimeException("Error while loading sales view", e)
-        }
+
+
+    fun getSaleById(id: Long): SaleBean {
+        return saleRepository.findById(id) ?: throw NoSuchElementException("Sale with id $id not found")
     }
 
+    fun saveSaleWithDescriptions(
+        date: LocalDate,
+        total: Double,
+        descriptions: List<SaleDescription>
+    ) {
+        val saleBean = SaleBean(
+            date = date,
+            total = total,
+            details = mutableListOf()
+        )
+
+        // Asigna la venta a cada descripción
+        descriptions.forEach { it.sale = saleBean }
+
+        // Añade las descripciones a la venta
+        saleBean.details = descriptions.toMutableList()
+
+        saleRepository.save(saleBean)
+    }
 
 }

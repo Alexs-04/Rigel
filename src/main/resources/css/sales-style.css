@@ -6,7 +6,7 @@
 }
 
 .btnHome {
-    -fx-background-image: url("/img/img-home.ico");
+    -fx-background-image: url("/img/icon.png");
     -fx-background-size: 80px 80px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -33,41 +33,49 @@
 }
 
 .table-view {
-    -fx-background-color: rgba(189, 189, 189, 0.76);
-    -fx-border-color: transparent;
-    -fx-padding: 0;
-    -fx-table-cell-border-color: red;
+    -fx-background-color: #9f9ef3;
+    -fx-border-color: #faf9f9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+    -fx-table-cell-border-color: transparent;
+}
+
+
+/* Celdas */
+.table-cell {
+    -fx-font-size: 14px;
+    -fx-padding: 8 10 8 10;
+}
+
+/* Hover en filas */
+.table-row-cell:hover {
+    -fx-background-color: #9f9ef3;
+}
+
+/* Selección */
+.table-row-cell:selected {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
 }
 
 .table-view .column-header-background {
-    -fx-background-color: rgba(161, 161, 161, 0.77); /* Color de fondo de la cabecera */
+    -fx-background-color: #5c4db1; /* Fondo morado oscuro */
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-size: 0; /* Oculta la cabecera */
-    -fx-padding: 0;
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
-}
-
-.table-row-cell {
-    -fx-background-color: #f5f5ff;
-    -fx-background-radius: 10px;
-    -fx-padding: 8 16 8 16;
+    -fx-size: 35px;
     -fx-border-color: transparent;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
+    -fx-background-color: transparent;
 }
 
-.table-row-cell:selected {
-    -fx-background-color: #b2bbf3;
-    -fx-text-fill: #222;
+.table-view .column-header .label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white; /* Texto blanco */
+    -fx-alignment: CENTER;
 }
 
-.table-cell {
-    -fx-border-width: 5;
-    -fx-background-color: #24249d;
-    -fx-font-size: 16px;
-}
 
 .btn-general {
     -fx-background-color: #6c63ff;
@@ -100,7 +108,8 @@
     -fx-border-color: #b2bbf3;
     -fx-border-width: 1;
 }
-.buttons{
+
+.buttons {
     -fx-background-color: transparent;
     -fx-text-fill: #504a4a;
     -fx-font-size: 14px;
@@ -112,6 +121,7 @@
     -fx-cursor: hand;
     -fx-font-family: "Roboto";
 }
+
 .buttons:hover {
     -fx-background-color: #2e1aa1;
 }

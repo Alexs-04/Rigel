@@ -37,8 +37,13 @@ public class LoginController {
             loginService.loadMainWindow();
             var stage = (Stage) btnStart.getScene().getWindow();
             loginService.closeWindow(stage);
+        } else {
+            ShowAlert.INSTANCE.showAlert("ERROR", "Inicio de sesión fallido",
+                    "", "Usuario o contraseña incorrectos. Inténtelo de nuevo.");
+            txfUser.clear();
+            txpPassword.clear();
+            errorStyle();
         }
-
     }
 
     private void errorStyle() {

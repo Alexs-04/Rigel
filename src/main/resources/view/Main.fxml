@@ -11,7 +11,7 @@
 
 <VBox prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.MainController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@../css/principal.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@../css/main.css" VBox.vgrow="ALWAYS">
       <children>
         <Label alignment="CENTER" layoutX="72.0" layoutY="19.0" prefHeight="48.0" prefWidth="427.0" style="&#10;" styleClass="welcome-label" text="Abarrotes Zuriel" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>

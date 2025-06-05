@@ -6,8 +6,6 @@ import atlix.model.content.ProductSupplier
 import atlix.model.content.ProductSupplierId
 import atlix.model.repository.ProductRepository
 import atlix.model.repository.SupplierRepository
-import atlix.util.WindowLoader
-import javafx.fxml.LoadException
 
 class ProductsService {
 
@@ -94,6 +92,30 @@ class ProductsService {
         }
     }
 
+     fun isProductLowStock(): Boolean {
+        val list = productRepository.findAll().filter { it.stock > 0 && it.stock  <=10 }
+            .map { productBean ->
+                Product(
+                    productBean.barCode,
+                    productBean.name,
+                    productBean.description,
+                    productBean.price,
+                    productBean.stock,
+                    productBean.id
+                )
+            }
+        return list.isEmpty()
+    }
+
+    fun updateStock(barCode: Long, stock: Int): Boolean {
+        val productBean = searchBeanByBarCode(barCode)
+            ?: throw IllegalArgumentException("Producto no encontrado con código de barras $barCode")
+
+        productBean.stock = productBean.stock - stock
+        productRepository.update(productBean)
+        return true
+    }
+
     fun getMissingProductsStock(): List<Product> {
         return productRepository.findAll().filter { it.stock <= 0 }.map { productBean ->
             Product(
@@ -113,7 +135,8 @@ class ProductsService {
         oldSupplierId: Int,
         flag: Boolean
     ): Boolean {
-        val bean = productRepository.findById(product.id) ?: throw IllegalArgumentException("Producto no encontrado con ID ${product.id}")
+        val bean = productRepository.findById(product.id)
+            ?: throw IllegalArgumentException("Producto no encontrado con ID ${product.id}")
         bean.name = product.name
         bean.description = product.description
         bean.price = product.price
@@ -191,23 +214,4 @@ class ProductsService {
             )
         }
     }
-
-    fun loadMainView() {
-        try {
-            WindowLoader().showWindow(atlix.util.Paths.MAIN_VIEW, "Vista Principal", false)
-        } catch (e: LoadException) {
-            e.printStackTrace()
-            throw RuntimeException("Error al cargar la vista principal: ${e.message}")
-        }
-    }
-
-    fun closeWindow(stage: javafx.stage.Stage) {
-        try {
-            WindowLoader().closeWindow(stage)
-        } catch (e: LoadException) {
-            e.printStackTrace()
-            throw RuntimeException("Error al cerrar la ventana: ${e.message}")
-        }
-    }
-
 }

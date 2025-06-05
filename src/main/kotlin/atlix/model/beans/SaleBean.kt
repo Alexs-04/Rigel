@@ -16,9 +16,10 @@ import java.time.LocalDate
 class SaleBean(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
-    var date: LocalDate,
+    var date: LocalDate = LocalDate.now(),
     @Column(length = 10)
-    var total: Double,
-    @OneToMany(mappedBy = "sale", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var total: Double = 0.0,
+
+    @OneToMany(mappedBy = "sale", cascade = [CascadeType.PERSIST], orphanRemoval = true)
     var details: List<SaleDescription> = mutableListOf()
 )

@@ -17,7 +17,7 @@ class SaleRepository {
         entityManager.transaction.commit()
     }
 
-    fun findById(id: Int): SaleBean? {
+    fun findById(id: Long): SaleBean? {
         return entityManager.find(SaleBean::class.java, id)
     }
 
@@ -34,7 +34,7 @@ class SaleRepository {
     }
 
     @Transactional
-    fun delete(id: Int) {
+    fun delete(id: Long) {
         entityManager.transaction.begin()
         val sale = findById(id)
         if (sale != null) {

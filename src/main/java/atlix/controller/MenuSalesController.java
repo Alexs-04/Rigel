@@ -1,20 +1,22 @@
 package atlix.controller;
 
-import atlix.logic.services.ProductsService;
+import atlix.logic.services.LoadViewService;
 import atlix.logic.services.SaleService;
-import atlix.util.ShowAlert;
+import atlix.model.beans.ProductBean;
+import atlix.model.beans.SaleBean;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 
 public class MenuSalesController {
     @FXML
@@ -36,23 +38,23 @@ public class MenuSalesController {
     private Button btnMenuSale;
 
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, String> clnNameEarning;
+    private TableColumn<SaleBean, String> clnNameEarning;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, String> clnPriceEarning;
+    private TableColumn<SaleBean, String> clnPriceEarning;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, Integer> clnAmountEarning;
+    private TableColumn<SaleBean, String> clnAmountEarning;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, Integer> clnIdRecord;
+    private TableColumn<SaleBean, String> clnIdRecord;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, String> clnDateRecord;
+    private TableColumn<SaleBean, String> clnDateRecord;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, String> clnTotalRecord;
+    private TableColumn<SaleBean, String> clnTotalRecord;
     @FXML
-    private TableColumn<atlix.model.beans.SaleBean, Integer> clnAmountRecord;
+    private TableColumn<SaleBean, String> clnAmountRecord;
     @FXML
-    private TableView<atlix.model.beans.SaleBean> tblSaleEarning;
+    private TableView<SaleBean> tblSaleEarning;
     @FXML
-    private TableView<atlix.model.beans.SaleBean> tblSaleRecord;
+    private TableView<SaleBean> tblSaleRecord;
     @FXML
     private ComboBox<String> cbxEarning;
 
@@ -63,9 +65,13 @@ public class MenuSalesController {
     private AnchorPane viewRecords;
 
     private final SaleService saleService = new SaleService();
+    private final LoadViewService loadViewService = new LoadViewService();
 
+    @FXML
     public void initialize() {
-
+        configureEvents();
+        recordTable();
+        setDataToRecordTable();
     }
 
     public void configureEvents() {
@@ -76,9 +82,9 @@ public class MenuSalesController {
     }
 
     public void goToSale() {
-        //SaleService.loadSalesView();
-        // var stage = (Stage) btnMenuSale.getScene().getWindow();
-        // productService.closeWindow(stage);
+        loadViewService.loadSalesView();
+        var stage = (Stage) btnMenuSale.getScene().getWindow();
+        loadViewService.closeWindow(stage);
     }
 
     public void goToRecord() {
@@ -92,62 +98,48 @@ public class MenuSalesController {
     }
 
     public void goToHome() {
-        //SaleService.loadMenuHome();
+        loadViewService.loadMainView();
         var stage = (Stage) btnMenuHome.getScene().getWindow();
-        //SaleService.closeWindow(stage);
+        loadViewService.closeWindow(stage);
     }
 
     public void earningTable() {
-        clnNameEarning.setCellValueFactory(new PropertyValueFactory<>("name"));
-        clnPriceEarning.setCellValueFactory(new PropertyValueFactory<>("salePrice"));
-        clnAmountEarning.setCellValueFactory(new PropertyValueFactory<>("amountSold"));
-
-
-        /*cbxEarning.setItems(FXCollections.observableArrayList(SalesService.getCategories()));
-
-        // Evento de selección
-        cbxEarning.setOnAction(event -> {
-            String selected = cbxEarning.getValue();
-            var products = productsService.getProductsByCategory(selected);
-            tblSaleEarning.setItems(FXCollections.observableArrayList(products));*/
     }
 
     public void recordTable() {
-        clnIdRecord.setCellValueFactory(new PropertyValueFactory<>("id"));
-        clnDateRecord.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        clnTotalRecord.setCellValueFactory(new PropertyValueFactory<>("total"));
-        clnAmountRecord.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-
         tblSaleRecord.setRowFactory(tv -> {
-            TableRow<atlix.model.beans.SaleBean> row = new TableRow<>();
+            TableRow<SaleBean> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getClickCount() == 2) {
-                    //atlix.model.beans.***Bean selectedSale = row.getItem();
-                    // Aquí abre la subventana
-                    //openSaleDetailWindow(selectedSale);
+                    SaleBean sale = row.getItem();
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailRecords.fxml"));
+                        Parent root = loader.load();
+                        DetailRecordsController controller = loader.getController();
+                        controller.setSale(sale); // Método que debes crear en el controlador
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Detalle de Venta");
+                        stage.show();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             });
             return row;
         });
     }
 
-    private void openSaleDetailWindow(atlix.model.beans.SaleBean sale) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailRecords.fxml"));
-            AnchorPane detailPane = loader.load();
+    public void setDataToRecordTable() {
+        clnIdRecord.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clnDateRecord.setCellValueFactory(new PropertyValueFactory<>("date"));
+        clnTotalRecord.setCellValueFactory(new PropertyValueFactory<>("total"));
+        clnAmountRecord.setCellValueFactory(cellData -> new SimpleStringProperty(
+                String.valueOf(cellData.getValue().getDetails().size())
+        ));
 
-            // Si necesitas pasar el objeto sale al controlador:
-            DetailRecordsController controller = loader.getController();
-            //controller.setSale(sale);
-
-            Stage stage = new Stage();
-            stage.setTitle("Detalle de Venta");
-            stage.setScene(new Scene(detailPane));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", "", "No se pudo abrir la ventana de detalle de venta.");
-        }
+        tblSaleRecord.setItems(FXCollections.observableArrayList(saleService.getAllSales()));
     }
 }
 
