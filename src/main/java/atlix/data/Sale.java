@@ -1,4 +1,6 @@
 package atlix.data;
 
-public record Sale (){
+public record Sale (
+
+){
 }
