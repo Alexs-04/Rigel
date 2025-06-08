@@ -6,7 +6,6 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "products")
 class ProductBean(
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,

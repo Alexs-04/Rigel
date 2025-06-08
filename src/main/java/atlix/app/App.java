@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    WindowLoader windowLoader = new WindowLoader();
+    private final WindowLoader windowLoader = new WindowLoader();
 
     @Override
     public void start(Stage primaryStage) {

@@ -20,7 +20,4 @@ class SupplierBean(
     var email: String = "",
     @OneToMany(mappedBy = "supplier", cascade = [CascadeType.ALL], orphanRemoval = true)
     var products: MutableSet<ProductSupplier> = mutableSetOf()
-
-) {
-
-}
+)

@@ -20,8 +20,4 @@ class ConsumerBean(
 
     @Column(name = "register_date", nullable = false)
     var registerDate: LocalDate = LocalDate.now()
-) {
-    class Builder(){
-        
-    }
-}
+)

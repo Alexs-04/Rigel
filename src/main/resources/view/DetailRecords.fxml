@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/sales-style.css" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="atlix.controller.DetailRecordsController">
+   <children>
+      <AnchorPane fx:id="viewDetails" prefHeight="608.0" prefWidth="800.0" styleClass="custom-anchor-pane">
+         <children>
+            <Label layoutX="143.0" layoutY="21.0" styleClass="welcome-label" text="Detalles de la venta" />
+            <ImageView fitHeight="55.0" fitWidth="60.0" layoutX="60.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/img-sales.png" />
+               </image>
+            </ImageView>
+            <TableView fx:id="tblDetails" layoutX="60.0" layoutY="174.0" prefHeight="333.0" prefWidth="720.0">
+              <columns>
+                <TableColumn fx:id="clnDetailsName" minWidth="240.0" prefWidth="75.0" text="Nombre Producto" />
+                <TableColumn fx:id="clnDetailsAmount" minWidth="240.0" prefWidth="75.0" text="Cantidad" />
+                  <TableColumn fx:id="clnDetailsPrice" minWidth="240.0" prefWidth="75.0" text="Precio" />
+              </columns>
+            </TableView>
+            <Label layoutX="157.0" layoutY="142.0" styleClass="item-label" text="id de venta: " />
+            <Label fx:id="lblDetailsId" layoutX="314.0" layoutY="142.0" styleClass="item-label" text="00" />
+            <Label layoutX="469.0" layoutY="532.0" styleClass="item-label" text="Subtotal: " />
+            <Label fx:id="lblDetailsTotal" layoutX="620.0" layoutY="532.0" styleClass="item-label" text="00.00" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

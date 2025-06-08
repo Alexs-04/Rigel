@@ -1,5 +1,6 @@
 package atlix.controller;
 
+import atlix.logic.services.LoadViewService;
 import atlix.logic.services.MainService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ public class MainController {
     private Button btnSuppliers;
 
     private final MainService mainService = new MainService();
+    private final LoadViewService loadViewService = new LoadViewService();
 
     @FXML
     public void initialize() {
@@ -34,12 +36,15 @@ public class MainController {
     }
 
     private void goToProducts() {
-        mainService.loadProductsView();
+        loadViewService.loadProductsView();
         var stage = (Stage) btnProducts.getScene().getWindow();
-        mainService.closeWindow(stage);
+        loadViewService.closeWindow(stage);
     }
 
     private void goToSales() {
+        loadViewService.loadMainSalesView();
+        var stage = (Stage) btnSales.getScene().getWindow();
+        loadViewService.closeWindow(stage);
     }
 
     private void goToShopping() {
