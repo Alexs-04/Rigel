@@ -1,5 +1,7 @@
 package atlix.controller;
 
+import atlix.concurrence.NotificationService;
+import atlix.logic.services.LoadViewService;
 import atlix.logic.services.LoginService;
 import atlix.util.ShowAlert;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ public class LoginController {
     public PasswordField txpPassword;
 
     private final LoginService loginService = new LoginService();
+    private final LoadViewService loadViewService = new LoadViewService();
 
     public void login() {
         String username = txfUser.getText();
@@ -34,9 +37,11 @@ public class LoginController {
         if (loginService.login(username, password)) {
             ShowAlert.INSTANCE.showAlert("INFORMATION", "Inicio de sesión exitoso",
                     "", "Bienvenido, " + username + "!");
-            loginService.loadMainWindow();
+            loadViewService.loadMainView();
             var stage = (Stage) btnStart.getScene().getWindow();
-            loginService.closeWindow(stage);
+            loadViewService.closeWindow(stage);
+            Thread notificationThread = new Thread(new NotificationService());
+            notificationThread.start();
         } else {
             ShowAlert.INSTANCE.showAlert("ERROR", "Inicio de sesión fallido",
                     "", "Usuario o contraseña incorrectos. Inténtelo de nuevo.");

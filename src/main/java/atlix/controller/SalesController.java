@@ -50,9 +50,7 @@ public class SalesController {
     public void initialize() {
         configureTable();
         configureEvents();
-        txtSearchSaleProduct.setOnAction(event -> {
-            searchSaleProduct();
-        });
+        txtSearchSaleProduct.setOnAction(event -> searchSaleProduct());
     }
 
     private void configureTable() {
@@ -108,6 +106,7 @@ public class SalesController {
         for (SaleTableItem item : saleProducts) {
             if (item.getBarcode().equals(String.valueOf(product.barCode()))) {
                 item.setQuantity(item.getQuantity() + 1);
+                item.setPrice(item.getPrice() * item.getQuantity());
                 tblSaleProducts.refresh();
                 updateTotal();
                 return;
@@ -165,7 +164,7 @@ public class SalesController {
     }
 
     private void updateTotal() {
-        double total = saleProducts.stream().mapToDouble(i -> i.getPrice() * i.getQuantity()).sum();
+        double total = saleProducts.stream().mapToDouble(SaleTableItem::getPrice).sum();
         lblSaleTotal.setText(String.valueOf(total));
     }
 
@@ -207,6 +206,10 @@ public class SalesController {
 
         public void setQuantity(int value) {
             quantity.set(value);
+        }
+
+        public void setPrice(double value) {
+            price.set(value);
         }
 
         public javafx.beans.property.SimpleStringProperty barcodeProperty() {

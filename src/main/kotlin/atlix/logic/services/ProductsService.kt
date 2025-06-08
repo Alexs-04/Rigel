@@ -92,8 +92,21 @@ class ProductsService {
         }
     }
 
-     fun isProductLowStock(): Boolean {
-        val list = productRepository.findAll().filter { it.stock > 0 && it.stock  <=10 }
+    fun getProductsLowsStock(): List<Product> {
+        return productRepository.findAll().filter { it.stock > 0 && it.stock <= 10 }.map { productBean ->
+            Product(
+                productBean.barCode,
+                productBean.name,
+                productBean.description,
+                productBean.price,
+                productBean.stock,
+                productBean.id
+            )
+        }
+    }
+
+    fun isProductLowStock(): Boolean {
+        val list = productRepository.findAll().filter { it.stock > 0 && it.stock <= 10 }
             .map { productBean ->
                 Product(
                     productBean.barCode,
