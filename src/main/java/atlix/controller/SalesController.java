@@ -79,7 +79,7 @@ public class SalesController {
         String search = txtSearchSaleProduct.getText().trim();
         if (search.isEmpty()) {
             txtSearchSaleProduct.getStyleClass().add("error-textfield");
-            ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "Se debe ingresar un producto a buscar");
+            ShowAlert.INSTANCE.showAlert("WARNING", "Error", null, "Se debe ingresar un producto a buscar");
             return;
         }
         txtSearchSaleProduct.setText("");
@@ -95,7 +95,7 @@ public class SalesController {
 
         var product = productsService.searchProductByBarCode(barcode);
         if (product == null) {
-            ShowAlert.INSTANCE.showAlert("INFORMATION", "Sin resultados", null, "No se encontró el producto");
+            ShowAlert.INSTANCE.showAlert("WARNING", "Producto inexistente", null, "No se encontró el producto");
             return;
         }
 
@@ -127,9 +127,16 @@ public class SalesController {
     public void clearSaleProduct() {
         txtSearchSaleProduct.clear();
         txtSearchSaleProduct.getStyleClass().remove("error-textfield");
-        saleProducts.clear();
         lblSaleTotal.setText("0");
+        if (saleProducts.isEmpty()) {
+            ShowAlert.INSTANCE.showAlert("WARNING", "No hay productos", null, "No hay productos para limpiar");
+            return;
+        } else {
+            ShowAlert.INSTANCE.showAlert("INFORMATION", "Productos limpiados", null, "Se han limpiado los productos de la venta");
+        }
+        saleProducts.clear();
     }
+
 
     public void ticketSale() {
         if (saleProducts.isEmpty()) {

@@ -12,6 +12,10 @@
     -fx-background-position: center;
     -fx-background-color: transparent;
 }
+.btnHome:hover {
+    -fx-background-color: #e0e0ff;
+    -fx-effect: dropshadow(gaussian, #938cee, 10, 0.5, 0, 0);
+}
 
 .welcome-label {
     -fx-font-size: 50px;

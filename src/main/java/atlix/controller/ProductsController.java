@@ -234,6 +234,7 @@ public class ProductsController {
         if (success) {
             ShowAlert.INSTANCE.showAlert("INFORMATION", "Éxito", null, "Producto agregado correctamente.");
             clearAddProductFields();
+            resetFieldStyles();
         } else {
             ShowAlert.INSTANCE.showAlert("ERROR", "Error", null, "No se pudo agregar el producto.");
         }
