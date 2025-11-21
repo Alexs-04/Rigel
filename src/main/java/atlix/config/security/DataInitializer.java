@@ -1,5 +1,6 @@
 package atlix.config.security;
 
+import atlix.config.security.jwt.JwtService;
 import atlix.model.beans.User;
 import atlix.model.enums.Role;
 import atlix.model.repositories.UserRepository;
@@ -14,9 +15,12 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(UserRepository repository, PasswordEncoder passwordEncoder) {
+    private final JwtService jwtService;
+
+    public DataInitializer(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class DataInitializer implements CommandLineRunner {
             u.setRole(Role.ADMIN);
             u.setAddress("Mx");
             u.setPhone("52");
-            
+
             repository.save(u);
         }
     }
