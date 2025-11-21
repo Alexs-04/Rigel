@@ -1,4 +1,4 @@
-package atlix.services;
+package atlix.logic.services;
 
 import atlix.model.beans.Product;
 import atlix.model.beans.Sale;

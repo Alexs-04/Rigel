@@ -1,6 +1,6 @@
 package atlix.controllers.rest;
 
-import atlix.services.DashboardService;
+import atlix.logic.services.DashboardService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -4,7 +4,6 @@ import atlix.model.beans.Product;
 import atlix.model.enums.Category;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public record ProductDTO(
@@ -25,6 +24,7 @@ public record ProductDTO(
         );
     }
 
+    @Deprecated
     public static Product toEntity(ProductDTO dto) {
         return new Product(
                 null,

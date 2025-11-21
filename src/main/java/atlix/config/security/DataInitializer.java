@@ -12,28 +12,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder encoder;
 
-    public DataInitializer(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
+        this.encoder = encoder;
     }
 
     @Override
     public void run(String... args) {
         String defaultUsername = "admin";
-        String defaultPassword = "admin123"; // cambiar por uno más seguro en producción
+        String defaultPassword = "admin123";
 
         if (repository.findByUsername(defaultUsername).isEmpty()) {
             User u = new User();
             u.setName("admin");
             u.setUsername(defaultUsername);
-            u.setPassword(passwordEncoder.encode(defaultPassword));
-            u.setEmail("admin@a@a@a@a@a@a@a@a");
+            u.setPassword(encoder.encode(defaultPassword));
+            u.setEmail("admin@example.com");
             u.setRole(Role.ADMIN);
             u.setAddress("Mx");
             u.setPhone("52");
-            
+
             repository.save(u);
         }
     }

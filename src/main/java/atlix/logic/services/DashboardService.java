@@ -1,4 +1,4 @@
-package atlix.services;
+package atlix.logic.services;
 
 import atlix.model.repositories.ProductRepository;
 import atlix.model.repositories.SaleRepository;

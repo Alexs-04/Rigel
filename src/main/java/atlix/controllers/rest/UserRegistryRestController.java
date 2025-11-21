@@ -2,7 +2,7 @@ package atlix.controllers.rest;
 
 import atlix.model.enums.Role;
 import atlix.model.util.UserDTO;
-import atlix.services.UserService;
+import atlix.logic.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

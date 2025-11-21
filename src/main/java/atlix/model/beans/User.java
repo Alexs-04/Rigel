@@ -40,6 +40,9 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RefreshToken refreshToken;
+
     @Override
     public User clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();

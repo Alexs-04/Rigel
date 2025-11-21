@@ -22,6 +22,7 @@ public record SupplierDTO(
         );
     }
 
+    @Deprecated
     public static Supplier toEntity(SupplierDTO dto) {
         return new Supplier(
                 null,
