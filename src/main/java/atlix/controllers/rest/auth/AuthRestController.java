@@ -91,24 +91,69 @@ public class AuthRestController {
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        try {
+            String token = body.get("refreshToken");
+            System.out.println("=== REFRESH TOKEN REQUEST ===");
+            System.out.println("Refresh token received: " + (token != null ? token.substring(0, 10) + "..." : "null"));
 
-        String token = body.get("refreshToken");
+            var refreshToken = refreshTokenRepository.findByToken(token)
+                    .orElseThrow(() -> {
+                        System.out.println("Refresh token not found in database");
+                        return new RuntimeException("Refresh token inválido");
+                    });
 
-        var refreshToken = refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Refresh token inválido"));
+            if (refreshTokenService.isExpired(refreshToken)) {
+                System.out.println("Refresh token expired");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Refresh token expirado");
+            }
 
-        if (refreshTokenService.isExpired(refreshToken)) {
+            var username = refreshToken.getUser().getUsername();
+
+            var newAccessToken = jwtService.generateToken(username);
+
+
+            return ResponseEntity.ok(Map.of(
+                    "accessToken", newAccessToken,
+                    "username", username
+            ));
+        } catch (Exception e) {
+            System.out.println("Refresh token error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Refresh token expirado");
+                    .body("Error refreshing token: " + e.getMessage());
         }
+    }
 
-        var username = refreshToken.getUser().getUsername();
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @RequestBody(required = false) Map<String, String> body) {
 
-        var newAccessToken = jwtService.generateToken(username);
+        try {
+            System.out.println("=== LOGOUT REQUEST ===");
 
-        return ResponseEntity.ok(Map.of(
-                "accessToken", newAccessToken,
-                "username", username
-        ));
+            String refreshToken = null;
+            if (body != null) {
+                refreshToken = body.get("refreshToken");
+            }
+
+            // Si se proporciona refresh token, eliminarlo
+            if (refreshToken != null && !refreshToken.trim().isEmpty()) {
+                System.out.println("Eliminando refresh token: " + refreshToken.substring(0, 10) + "...");
+                refreshTokenRepository.findByToken(refreshToken)
+                        .ifPresent(token -> {
+                            refreshTokenRepository.delete(token);
+                            System.out.println("Refresh token eliminado");
+                        });
+            }
+
+            System.out.println("Logout exitoso");
+            return ResponseEntity.ok(Map.of("message", "Logout exitoso"));
+
+        } catch (Exception e) {
+            System.out.println("Error en logout: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error durante el logout");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package atlix.config.security.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        System.out.println("=== JWT FILTER ===");
-        System.out.println("Request URL: " + request.getRequestURI());
-        System.out.println("Authorization Header: " + authHeader);
-
-        // Si no hay header o no es Bearer, continuar
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("No Bearer token found, skipping filter");
             filterChain.doFilter(request, response);
@@ -46,21 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String token = authHeader.substring(7);
 
-        System.out.println("Token extracted: '" + token + "'");
-        System.out.println("Token length: " + token.length());
-        System.out.println("Token is literal 'null': " + "null".equals(token));
-        System.out.println("Token is literal 'undefined': " + "undefined".equals(token));
-
-        // Si el token es literalmente "null" o "undefined", ignorar la autenticación
-        if ("null".equals(token) || "undefined".equals(token)) {
-            System.out.println("Token is literal 'null' or 'undefined', skipping authentication");
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // Si el token está vacío, ignorar
-        if (token.trim().isEmpty()) {
-            System.out.println("Token is empty, skipping authentication");
+        if ("null".equals(token) || "undefined".equals(token) || token.trim().isEmpty()) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -80,15 +62,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    System.out.println("Authentication successful for user: " + username);
                 }
             }
+
+        } catch (ExpiredJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token expired");
+            return; // No continuar con la cadena de filters
+
         } catch (Exception e) {
-            System.out.println("JWT Authentication failed: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid token");
+            return;
         }
 
         filterChain.doFilter(request, response);
     }
 }
-
-//08b0c233-3de2-457d-ae7b-8591a6b641a7
