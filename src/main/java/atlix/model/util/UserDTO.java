@@ -1,5 +1,6 @@
 package atlix.model.util;
 
+import atlix.model.beans.RefreshToken;
 import atlix.model.beans.User;
 import atlix.model.enums.Role;
 
@@ -12,7 +13,8 @@ public record UserDTO(
         String email,
         String phone,
         String address,
-        Role role
+        Role role,
+        RefreshToken token
 ) implements Serializable {
     public static UserDTO toDTO(User user) {
         return new UserDTO(
@@ -22,7 +24,8 @@ public record UserDTO(
                 user.getEmail(),
                 user.getPhone(),
                 user.getAddress(),
-                user.getRole()
+                user.getRole(),
+                user.getRefreshToken()
         );
     }
 
@@ -35,7 +38,8 @@ public record UserDTO(
                 userDTO.email,
                 userDTO.phone,
                 userDTO.address,
-                userDTO.role
+                userDTO.role,
+                userDTO.token
         );
     }
 }

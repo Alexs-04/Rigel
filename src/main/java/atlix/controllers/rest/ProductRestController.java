@@ -1,7 +1,7 @@
 package atlix.controllers.rest;
 
 import atlix.model.util.ProductDTO;
-import atlix.services.ProductService;
+import atlix.logic.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

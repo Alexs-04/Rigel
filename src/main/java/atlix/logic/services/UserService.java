@@ -1,4 +1,4 @@
-package atlix.services;
+package atlix.logic.services;
 
 import atlix.model.beans.User;
 import atlix.model.repositories.UserRepository;
@@ -74,5 +74,9 @@ public class UserService implements UserDetailsService {
     public UserDTO findByUsername(String username) {
         return UserDTO.toDTO(repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado")));
+    }
+
+    public User internalFindByUsername(String username) {
+        return repository.findByUsername(username).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 }

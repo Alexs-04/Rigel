@@ -1,7 +1,8 @@
-package atlix.logic;
+package atlix.logic.log;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,12 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class LogInterceptor implements HandlerInterceptor {
 
+    @Bean
+    public HandlerInterceptor handlerInterceptor() {
+        return this;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
 
         System.out.println("Interceptando antes del controlador");
+        System.out.println("Controller: " + request.getRequestURI());
+        System.out.println("Handler: " + request.getMethod());
+        System.out.println("Contenido: " + request.getContentType());
         return true;
     }
 
@@ -24,6 +33,10 @@ public class LogInterceptor implements HandlerInterceptor {
                            Object handler,
                            ModelAndView modelAndView) throws Exception {
         System.out.println("Interceptando después del controlador");
+        System.out.println("Controller: " + request.getRequestURI());
+        System.out.println("Handler: " + request.getMethod());
+        System.out.println("Contenido: " + request.getContentType());
+        System.out.println("Contenido de la respuesta: " + response.getContentType());
     }
 
     @Override
