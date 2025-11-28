@@ -1,7 +1,7 @@
 package atlix.controllers.rest;
 
 import atlix.model.enums.Role;
-import atlix.model.util.UserDTO;
+import atlix.model.response.UserDTO;
 import atlix.logic.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,6 @@ public class UserRegistryRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
-        // Usar el método de borrado disponible en UserService.
         // Aquí se asume userService.delete(user) existe; si no, usar deleteByUsername(request.username()).
         userService.deleteByUsername(user.username());
 

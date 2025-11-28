@@ -2,7 +2,7 @@ package atlix.logic.services;
 
 import atlix.model.beans.User;
 import atlix.model.repositories.UserRepository;
-import atlix.model.util.UserDTO;
+import atlix.model.response.UserDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,17 +24,18 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO save(UserDTO user) {
+    public void save(UserDTO user) {
         // validar existencia del username
         if (repository.findByUsername(user.username()).isPresent()) {
             throw new IllegalArgumentException("El nombre de usuario ya existe");
         }
 
-        var entity = UserDTO.toEntity(user);
+        var entity = new User();
+        entity.setUsername(user.username());
+        entity.setAddress(user.address());
+        entity.setEmail(user.email());
         entity.setPassword(passwordEncoder.encode(user.pass()));
         var saved = repository.save(entity);
-
-        return UserDTO.toDTO(saved);
     }
 
     public List<UserDTO> findAll() {
@@ -60,14 +61,14 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().name()) // revisar si tu enum ya incluye "ROLE_" para evitar duplicados
+                .roles(user.getRole().name())
                 .build();
     }
 

@@ -3,7 +3,7 @@ package atlix.controllers.rest.auth;
 import atlix.config.security.jwt.JwtService;
 import atlix.logic.services.UserService;
 import atlix.model.repositories.RefreshTokenRepository;
-import atlix.model.util.LoginRequest;
+import atlix.model.request.LoginRequest;
 import atlix.logic.services.RefreshTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

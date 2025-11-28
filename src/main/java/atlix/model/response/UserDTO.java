@@ -1,4 +1,4 @@
-package atlix.model.util;
+package atlix.model.response;
 
 import atlix.model.beans.RefreshToken;
 import atlix.model.beans.User;
@@ -29,6 +29,7 @@ public record UserDTO(
         );
     }
 
+    @Deprecated
     public static User toEntity(UserDTO userDTO) {
         return new User(
                 0L,
