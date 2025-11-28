@@ -1,4 +1,4 @@
-package atlix.model.util;
+package atlix.model.response;
 
 import atlix.model.beans.Product;
 import atlix.model.enums.Category;
@@ -11,7 +11,8 @@ public record ProductDTO(
         String description,
         Double price,
         String barcode,
-        Category category
+        Category category,
+        String image
 ) implements Serializable {
 
     public static ProductDTO toDTO(Product product) {
@@ -20,7 +21,8 @@ public record ProductDTO(
                 product.getDescription(),
                 product.getPrice(),
                 product.getBarcode(),
-                product.getCategory()
+                product.getCategory(),
+                product.getUrlImg()
         );
     }
 
@@ -33,6 +35,7 @@ public record ProductDTO(
                 dto.price,
                 dto.barcode,
                 dto.category,
+                "",
                 new ArrayList<>()
         );
     }

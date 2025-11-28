@@ -6,8 +6,8 @@ import atlix.model.beans.User;
 import atlix.model.beans.sub.SaleDetail;
 import atlix.model.repositories.ProductRepository;
 import atlix.model.repositories.SaleRepository;
-import atlix.model.util.SaleDetailDTO;
-import atlix.model.util.UserDTO;
+import atlix.model.response.SaleDetailDTO;
+import atlix.model.response.UserDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package atlix.model.util;
+package atlix.model.request;
 
 import java.io.Serializable;
 

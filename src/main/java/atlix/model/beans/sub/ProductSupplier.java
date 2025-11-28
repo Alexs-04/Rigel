@@ -27,5 +27,5 @@ public class ProductSupplier {
     private Supplier supplier;
 
     @Column(nullable = false)
-    private double price;
+    private Double price;
 }

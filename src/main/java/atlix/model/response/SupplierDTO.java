@@ -1,4 +1,4 @@
-package atlix.model.util;
+package atlix.model.response;
 
 import atlix.model.beans.Supplier;
 

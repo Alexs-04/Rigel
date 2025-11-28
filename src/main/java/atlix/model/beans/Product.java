@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +35,9 @@ public class Product implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Column(name = "url_img")
+    private String urlImg;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductSupplier> suppliers = new ArrayList<>();
