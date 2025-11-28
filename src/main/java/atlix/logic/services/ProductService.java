@@ -3,8 +3,10 @@ package atlix.logic.services;
 import atlix.model.beans.Product;
 import atlix.model.beans.Supplier;
 import atlix.model.beans.sub.ProductSupplier;
+import atlix.model.beans.sub.ProductSupplierId;
 import atlix.model.repositories.ProductRepository;
 import atlix.model.repositories.SupplierRepository;
+import atlix.model.request.ProductRequest;
 import atlix.model.response.ProductDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -68,10 +70,18 @@ public class ProductService {
                 .toList();
     }
 
-  @Transactional
-  public void deleteByBarcode(String barcode) {
-        repository.findByBarcode(barcode).orElseThrow(() -> new IllegalArgumentException("Barcode not found"));
-        repository.deleteByBarcode(barcode);
+    @Transactional
+    public void deleteByBarcode(String barcode) {
+        Product product = repository.findByBarcode(barcode)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        // Limpiar relaciones primero
+        product.getSuppliers().forEach(ps -> {
+            ps.getSupplier().getProducts().remove(ps);
+        });
+        product.getSuppliers().clear();
+
+        repository.delete(product);
     }
 
     public ProductDTO findById(Long id) {
@@ -94,31 +104,42 @@ public class ProductService {
     }
 
     @Transactional
-    public Map<?,?> update(Product changes, String barcode) {
-        var p = repository.findByBarcode(barcode);
+    public void update(String barcode, ProductRequest request) {
+        Product existingProduct = repository.findByBarcode(barcode)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        if (p.isEmpty()) {
-            return Map.of(
-                    "status",500,
-                    "message", "Product not found"
-            );
+        // Actualizar campos básicos
+        existingProduct.setName(request.productDTO().name());
+        existingProduct.setPrice(request.productDTO().price());
+        existingProduct.setCategory(request.productDTO().category());
+        existingProduct.setDescription(request.productDTO().description());
+
+        // Manejar relaciones con proveedores (si se proporcionan en el request)
+        if (request.supplierName() != null && request.price() != null) {
+            updateSupplierRelations(existingProduct, request.supplierName(), request.price());
         }
 
-        var existingProduct = p.get();
+        repository.save(existingProduct);
+    }
 
-        existingProduct.setName(changes.getName());
-        existingProduct.setBarcode(changes.getBarcode());
-        existingProduct.setPrice(changes.getPrice());
-        existingProduct.setCategory(changes.getCategory());
+    private void updateSupplierRelations(Product product, String supplierName, Double price) {
+        Supplier supplier = supplierRepository.findByName(supplierName)
+                .orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
 
-        existingProduct.getSuppliers().clear();
-        existingProduct.getSuppliers().addAll(changes.getSuppliers());
+        // Buscar relación existente o crear nueva
+        ProductSupplier relation = product.getSuppliers().stream()
+                .filter(ps -> ps.getSupplier().getName().equals(supplierName))
+                .findFirst()
+                .orElse(new ProductSupplier());
 
-        changes.getSuppliers().forEach(ps -> ps.setProduct(existingProduct));
+        if (relation.getId() == null) {
+            relation.setId(new ProductSupplierId());
+            relation.setProduct(product);
+            relation.setSupplier(supplier);
+            product.getSuppliers().add(relation);
+            supplier.getProducts().add(relation);
+        }
 
-        return Map.of(
-                "status", 200,
-                "message", "Product updated"
-        );
+        relation.setPrice(price);
     }
 }

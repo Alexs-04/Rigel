@@ -39,9 +39,13 @@ public class ProductRestController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editProduct(@RequestBody Product changes,  @RequestParam("barcode") String barcode) {
+    public ResponseEntity<?> editProduct(@RequestBody ProductRequest changes,  @RequestParam("barcode") String barcode) {
+        productService.update(barcode, changes);
         return ResponseEntity.ok(
-                productService.update(changes, barcode)
+                Map.of(
+                        "status", 200,
+                        "message", "product edited successfully"
+                )
         );
     }
 

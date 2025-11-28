@@ -36,6 +36,9 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Column(name = "url_img")
+    private String urlImg;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductSupplier> suppliers = new ArrayList<>();
 }
