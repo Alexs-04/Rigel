@@ -39,6 +39,12 @@ public class Product implements Serializable {
     @Column(name = "url_img")
     private String urlImg;
 
+    @Column(nullable = false)
+    private Integer stock = 0;
+
+    @Version
+    private Long version;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductSupplier> suppliers = new ArrayList<>();
 }

@@ -24,10 +24,10 @@ public class DashboardService {
 
     public Map<?, ?> getDashboard() {
         return Map.of(
-                "totalProducts", 20,
+                "totalProducts", getTotalProducts(),
                 "salesToday", 50,
-                "totalSuppliers", 12,
-                "totalOrders", 27,
+                "totalSuppliers", getTotalSuppliers(),
+                "totalOrders", 0,
                 "monthlySales", List.of(),
                 "purchasesBySupplier", List.of(),
                 "systemDistribution", List.of()

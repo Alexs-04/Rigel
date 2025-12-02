@@ -126,7 +126,6 @@ public class AuthRestController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @RequestBody(required = false) Map<String, String> body) {
 
         try {

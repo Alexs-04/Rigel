@@ -35,9 +35,10 @@ public record ProductDTO(
                 dto.price,
                 dto.barcode,
                 dto.category,
-                "",
+                dto.image,
+                0,
+                null,
                 new ArrayList<>()
         );
     }
 }
-

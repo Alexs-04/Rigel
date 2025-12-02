@@ -21,7 +21,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String defaultUsername = "admin";
+        String defaultUsername = "Alexander";
         String defaultPassword = "admin123";
 
         if (repository.findByUsername(defaultUsername).isEmpty()) {
